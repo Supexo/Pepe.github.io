@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IStoreService {
     public List<Game> newestGames();
-
+    public Game getGames(int gid);
 }

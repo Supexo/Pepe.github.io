@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
-public class GameDaoImpl implements IGameDao{
+public class StoreDaoImpl implements IStoreDao {
     //仅作为测试用！
     private List<Game> games;
     private void setTestGames(){
@@ -42,9 +42,52 @@ public class GameDaoImpl implements IGameDao{
 
     }
 
-    // 返回全部游戏
     @Override
-    public List<Game> getGames() {
+    public Game getGame(int gid) {
+        return null;
+    }
+
+    @Override
+    public void addToCart(int gid, int uid) {
+
+    }
+
+    @Override
+    public boolean addToRepository(int gid, int uid) {
+        return false;
+    }
+
+    @Override
+    public void addGame(Game game) {
+
+    }
+
+    @Override
+    public List<Game> getGames(String keyWord, int page) {
+        return null;
+    }
+
+    @Override
+    public void deleteFromCart(int gid, int uid) {
+
+    }
+
+    @Override
+    public List<Game> getCart(int uid, int page) {
+        return null;
+    }
+
+    @Override
+    public List<Game> getLatestGames() {
+        return null;
+    }
+
+    @Override
+    public List<Game> getNavGames(int gid1, int gid2, int gid3) {
+        return null;
+    }
+
+    public List<Game> getTestGames(){
         setTestGames();
         return games;
     }
