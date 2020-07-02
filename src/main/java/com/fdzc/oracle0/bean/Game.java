@@ -1,6 +1,6 @@
 package com.fdzc.oracle0.bean;
 
-import java.util.Date;
+import java.util.List;
 
 public class Game {
     private Integer gid;
@@ -10,12 +10,13 @@ public class Game {
     private Integer price;
     private Integer discount;
     private String summary;
-    private Date pubDate;
+    private String pubDate;
     private String mainImg;
     private String gameFile;
     private Boolean status;
+    private List<String> tag;
 
-    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, Date pubDate, String mainImg, String gameFile, Boolean status) {
+    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, String pubDate, String mainImg, String gameFile, Boolean status) {
         this.gid = gid;
         this.name = name;
         this.dev = dev;
@@ -29,11 +30,34 @@ public class Game {
         this.status = status;
     }
 
+    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, String pubDate, String mainImg, String gameFile, Boolean status, List<String> tag) {
+        this.gid = gid;
+        this.name = name;
+        this.dev = dev;
+        this.pub = pub;
+        this.price = price;
+        this.discount = discount;
+        this.summary = summary;
+        this.pubDate = pubDate;
+        this.mainImg = mainImg;
+        this.gameFile = gameFile;
+        this.status = status;
+        this.tag = tag;
+    }
+
     public Game() {
     }
 
     public Integer getGid() {
         return gid;
+    }
+
+    public List<String> getTag() {
+        return tag;
+    }
+
+    public void setTag(List<String> tag) {
+        this.tag = tag;
     }
 
     public void setGid(Integer gid) {
@@ -88,11 +112,11 @@ public class Game {
         this.summary = summary;
     }
 
-    public Date getPubDate() {
+    public String getPubDate() {
         return pubDate;
     }
 
-    public void setPubDate(Date pubDate) {
+    public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
 
