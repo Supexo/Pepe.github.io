@@ -35,9 +35,11 @@ public class StoreServiceImpl implements IStoreService{
         int p;
         // 返回gid为-1的说明参数查询错误
         try {
+            if(page==null){
+                page = "1";
+            }
             p = Integer.parseInt(page);
-            System.out.println(p);
-            storeDao.getGames(keyword,p);
+            games = storeDao.getGames(keyword,p);
         }catch (NumberFormatException e){
             // System.out.println("数字错误");
             Game g = new Game();

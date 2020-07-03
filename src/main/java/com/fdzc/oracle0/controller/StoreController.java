@@ -52,12 +52,10 @@ public class StoreController {
     @RequestMapping("/search")
     public ModelAndView search(@RequestParam String keyword, @RequestParam(name="page",required = false) String page){
         ModelAndView mav = new ModelAndView();
-        List<Game> games = new ArrayList<>();
-        if(page==null){
-            page = "1";
-        }
+        List<Game> games;
         games = storeService.getGames(keyword, page);
         mav.setViewName("search");
+        mav.addObject("games",games);
         return mav;
     }
 }

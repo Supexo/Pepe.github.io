@@ -17,14 +17,14 @@ public class StoreDaoImpl implements IStoreDao {
         tags.add("色情内容");
         tags.add("裸露");
         tags.add("可爱");
-        games.add(new Game(1001,"NEKOPARA Vol. 3","NEKO WORKs","Sekai Project",7500,50,"水無月嘉祥所經營的蛋糕店『Soleil』裡的貓娘情人持續增加，今天也好評營業中。 自尊心很強、高傲又時髦的貓娘次女楓， 與總是陷入妄想獨自一人暴走的三女桂。 兩隻貓在姊妹之中的關係如同至交好友一般，因為一些契機而對夢想感到煩惱的楓， 想成為摯友的助力卻不知該怎麼做才好的桂，描繪一起朝著夢想成...","2017-5-25","nekopara3","",true,tags));
+        games.add(new Game(1001,"NEKOPARA Vol. 3","NEKO WORKs","Sekai Project",7500,50,"水無月嘉祥所經營的蛋糕店『Soleil』裡的貓娘情人持續增加，今天也好評營業中。 自尊心很強、高傲又時髦的貓娘次女楓， 與總是陷入妄想獨自一人暴走的三女桂。 兩隻貓在姊妹之中的關係如同至交好友一般，因為一些契機而對夢想感到煩惱的楓， 想成為摯友的助力卻不知該怎麼做才好的桂，描繪一起朝著夢想成...","2017-5-25","nekopara3","",true, tags));
         tags.clear();
 
         tags.add("Hentai");
         tags.add("色情内容");
         tags.add("裸露");
         tags.add("可爱");
-        games.add(new Game(1002,"NEKOPARA Vol. 2","NEKO WORKs","Sekai Project",7500,60,"由水無月嘉祥經營的蛋糕店「Soleil」，今天也在水無月家貓娘四姊妹＋妹妹時雨的幫忙下努力營業著。 嘴巴壞又不坦率，但實際上十項全能又愛護妹妹的長女紅豆， 以及正直又努力，可是卻笨手笨腳又愛逞強的四女椰子， 過去在姊妹中感情最好的這兩隻貓娘，不知何時開始變成了一對成天吵不膩的歡喜冤家。","2016-2-20","nekopara2","",true,tags));
+        games.add(new Game(1002,"NEKOPARA Vol. 2","NEKO WORKs","Sekai Project",7500,60,"由水無月嘉祥經營的蛋糕店「Soleil」，今天也在水無月家貓娘四姊妹＋妹妹時雨的幫忙下努力營業著。 嘴巴壞又不坦率，但實際上十項全能又愛護妹妹的長女紅豆， 以及正直又努力，可是卻笨手笨腳又愛逞強的四女椰子， 過去在姊妹中感情最好的這兩隻貓娘，不知何時開始變成了一對成天吵不膩的歡喜冤家。","2016-2-20","nekopara2","",true, tags));
         tags.clear();
 
         tags.add("Hentai");
@@ -85,7 +85,7 @@ public class StoreDaoImpl implements IStoreDao {
         tags.add("大战略");
         tags.add("回合战略");
         tags.add("二战");
-        games.add(new Game(1012,"Hearts of Iron III","Paradox Development Studio","Paradox Interactive",7500,75,"Hearts of Iron III lets you play the most engaging conflict in world history, World War 2, on all fronts as any country and through multiple different scenarios. Guide your nation to glory between 1936 and 1948 and wage war, conduct diplomacy and build your industry in the most detailed World War 2 game ever ","2009-8-7","hoi3","",true,tags));
+        games.add(new Game(1012,"Hearts of Iron III","Paradox Development Studio","Paradox Interactive",7500,75,"Hearts of Iron III lets you play the most engaging conflict in world history, World War 2, on all fronts as any country and through multiple different scenarios. Guide your nation to glory between 1936 and 1948 and wage war, conduct diplomacy and build your industry in the most detailed World War 2 game ever ","2009-8-7","hoi3","",true, tags));
         tags.clear();
 
     }
@@ -121,14 +121,36 @@ public class StoreDaoImpl implements IStoreDao {
     public List<Game> getGames(String keyWord, int page) {
         setTestGames();//测试用数据初始化，后面记得删除
 
-        List<Game> latestGames = new ArrayList<>();
+        List<Game> resultGames = new ArrayList<>();
         for(Game g:games){
-            
+            if(checkGame(g,keyWord)){
+                resultGames.add(g);
+            }
+        }
+        return resultGames;
+    }
+    // 测试用的比对代码，真正使用时，直接在数据库查询清楚
+    private boolean checkGame(Game g,String k){
+        boolean result = false;
+        // 看看在不在tag里
+        for(String s: g.getTag()){
+            if(s.toLowerCase().indexOf(k.toLowerCase())!=-1){
+                return true;
+            }
         }
 
-        return null;
-    }
+        if(g.getName().toLowerCase().indexOf(k.toLowerCase())!=-1){
+            result =  true;
+        }else if(g.getSummary().toLowerCase().indexOf(k.toLowerCase())!=-1){
+            result =  true;
+        }else if(g.getDev().toLowerCase().indexOf(k.toLowerCase())!=-1){
+            result =  true;
+        }else if(g.getPub().toLowerCase().indexOf(k.toLowerCase())!=-1){
+            result =  true;
+        }
 
+        return result;
+    }
     @Override
     public void deleteFromCart(int gid, int uid) {
 

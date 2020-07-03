@@ -48,7 +48,7 @@
             </ol>
             <div class="carousel-inner">
                 <div th:class="'carousel-item'+${var.first?' active':''}" th:each="item, var:${navs}">
-                    <img th:src="${item.getMainImg()}+'/0.jpg'" class="d-block w-100" alt="...">
+                    <img th:src="${item.mainImg}+'/0.jpg'" class="d-block w-100" alt="...">
                 </div>
 
             </div>
