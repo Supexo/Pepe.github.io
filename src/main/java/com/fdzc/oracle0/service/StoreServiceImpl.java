@@ -30,6 +30,24 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
+    public List<Game> getGames(String keyword, String page) {
+        List<Game> games = new ArrayList<>();
+        int p;
+        // 返回gid为-1的说明参数查询错误
+        try {
+            p = Integer.parseInt(page);
+            System.out.println(p);
+            storeDao.getGames(keyword,p);
+        }catch (NumberFormatException e){
+            // System.out.println("数字错误");
+            Game g = new Game();
+            g.setGid(-1);
+            games.add(g);
+        }
+        return games;
+    }
+
+    @Override
     public Game getGame(int gid) {
         return storeDao.getGame(gid);
     }

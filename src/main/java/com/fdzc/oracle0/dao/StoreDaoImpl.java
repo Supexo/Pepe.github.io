@@ -3,6 +3,7 @@ package com.fdzc.oracle0.dao;
 import com.fdzc.oracle0.bean.Game;
 import org.springframework.stereotype.Repository;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
@@ -118,6 +119,13 @@ public class StoreDaoImpl implements IStoreDao {
 
     @Override
     public List<Game> getGames(String keyWord, int page) {
+        setTestGames();//测试用数据初始化，后面记得删除
+
+        List<Game> latestGames = new ArrayList<>();
+        for(Game g:games){
+            
+        }
+
         return null;
     }
 
