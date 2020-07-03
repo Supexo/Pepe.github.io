@@ -56,6 +56,7 @@ public class StoreController {
         games = storeService.getGames(keyword, page);
         mav.setViewName("search");
         mav.addObject("games",games);
+        mav.addObject("keyword",keyword);
         return mav;
     }
 }

@@ -32,15 +32,17 @@
                 </a>
             </li>
         </ul>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2 bg-light" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline" action="/search">
+            <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
     <div style="max-width:1060px; margin: auto;" class="pt-3">
         <!--            搜索结果-->
         <div class="table-responsive">
-            <table class="table table-dark">
+            <h2 th:text="'“'+${keyword}+'”的搜索结果'" class="text-light" style="min-height: 100px;line-height: 100px;"></h2>
+            <h2 th:if="${games.size()==0}" class="text-light" style="min-height: 800px;line-height: 800px;text-align: center">No Result</h2>
+            <table th:if="${games.size()!=0}" class="table table-dark">
                 <thead>
                 <tr>
                     <th scope="col" style="text-align: center">#</th>
@@ -51,7 +53,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <tr height="108" th:each="item,var:${games}">
                     <td class="p-0" width="192">
                         <img th:src="'/'+${item.mainImg}+'/0.jpg'" height="108">
