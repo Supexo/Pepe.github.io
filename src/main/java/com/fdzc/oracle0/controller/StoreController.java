@@ -17,13 +17,15 @@ public class StoreController {
     public ModelAndView getMainPage(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index");
-        List<Game> games = storeService.newestGames();
+        List<Game> games = storeService.getLatestGames();
+        List<Game> navs = storeService.getNavGames();
+        mav.addObject("navs",navs);
         mav.addObject("games",games);
         return mav;
     }
 
     @RequestMapping("/addToCart/{gid}")
-    public ModelAndView getUser(@PathVariable Integer gid){
+    public ModelAndView addToCart(@PathVariable Integer gid){
         /*
         TODO:检查用户登陆，没登陆去登录页面，否则直接进入购物车页面
          */
@@ -32,4 +34,16 @@ public class StoreController {
         return mav;
     }
 
+    @RequestMapping("/info/{gid}")
+    public ModelAndView getUser(@PathVariable Integer gid){
+        ModelAndView mav = new ModelAndView();
+        Game game = storeService.getGame(gid);
+        if(game==null){
+            mav.setViewName("notFound");;
+        }else{
+            mav.setViewName("info");
+            mav.addObject("game",game);
+        }
+        return mav;
+    }
 }
