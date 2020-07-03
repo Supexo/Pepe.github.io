@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <title>在 伪·蒸汽动力 上购买Nekopara Vol. 3</title>
+    <title th:text="'在 伪·蒸汽动力 上购买'+${game.name}"></title>
 </head>
 <body>
 <div class="container-fluid pl-0 pr-0" style="background: #1b2838;">
@@ -38,30 +38,25 @@
         </form>
     </nav>
     <div style="max-width:1060px; margin: auto;" class="pt-3">
-        <h2 class="pt-3 text-light"> Nekopara Vol. 3</h2>
+        <h2 class="pt-3 text-light" th:text="${game.name}"></h2>
         <!--            滚动横幅-->
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="margin-bottom: 20px">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-                <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
             </ol>
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="../static/ss_01.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-item active" >
+                    <img th:src="'/'+${game.mainImg}+'/1.jpg'" class="d-block w-100" alt="...">
 
                 </div>
                 <div class="carousel-item">
-                    <img src="../static/ss_02.jpg" class="d-block w-100" alt="...">
+                    <img th:src="'/'+${game.mainImg}+'/2.jpg'" class="d-block w-100" alt="...">
 
                 </div>
                 <div class="carousel-item">
-                    <img src="../static/ss_03.jpg" class="d-block w-100" alt="...">
-
-                </div>
-                <div class="carousel-item">
-                    <img src="../static/ss_04.jpg" class="d-block w-100" alt="...">
+                    <img th:src="'/'+${game.mainImg}+'/3.jpg'"class="d-block w-100" alt="...">
 
                 </div>
             </div>
@@ -77,23 +72,25 @@
         <div class="container-fluid row m-0">
 
             <div class="col-4 card bg-dark text-light" style="width: 18rem;">
-                <img src="../static/header.jpg" class="card-img-top" alt="...">
+                <img th:src="'/'+${game.mainImg}+'/0.jpg'" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Nekopara Vol. 3</h5>
-                    <p class="card-text">水無月嘉祥所經營的蛋糕店『Soleil』裡的貓娘情人持續增加，今天也好評營業中。 自尊心很強、高傲又時髦的貓娘次女楓， 與總是陷入妄想獨自一人暴走的三女桂。 兩隻貓在姊妹之中的關係如同至交好友一般，因為一些契機而對夢想感到煩惱的楓， 想成為摯友的助力卻不知該怎麼做才好的桂，描繪一起朝著夢想成</p>
+                    <h5 class="card-title" th:text="${game.name}"></h5>
+                    <p class="card-text" th:text="${game.summary}"></p>
                 </div>
             </div>
 
             <div class="col-8 ">
                 <div class="card bg-dark text-light">
                     <div class="card-body">
-                        <h4 class="card-title">购买 NEKOPARA Vol. 3</h4>
-                        <p class="card-text">现在购买立即省下50%</p>
+                        <h4 class="card-title" th:text="'购买 '+${game.name}"></h4>
+                        <p class="card-text" th:text="'现在购买立即省下'+${game.discount}+'%'"></p>
                         <div class="d-flex justify-content-end">
-                            <div style="display: inline-block; height: 40px; width: 60px; text-align: center; line-height: 40px; color: #8bc53f; background: #4c6b22; font-size: 20px">-60%</div>
+                            <div style="display: inline-block; height: 40px; width: 60px; text-align: center; line-height: 40px; color: #8bc53f; background: #4c6b22; font-size: 20px" th:text="'-'+${game.discount}+'%'"></div>
                             <h5 style="line-height: 38px; text-align: center;margin-bottom: 0;padding-left: 10px;padding-right: 10px;">
-                                <div style="text-decoration: line-through; display: inline-block;color:gray;">$100</div>
-                                $40
+                                <div style="text-decoration: line-through; display: inline-block;color:gray;" th:text="'$'+${game.price/100.0}"></div>
+                            </h5>
+                            <h5 style="line-height: 38px; text-align: center;margin-bottom: 0;padding-left: 10px;padding-right: 10px;">
+                                <div th:text="'$'+${(game.price * ((100 - game.discount)/100.0) )/100.0}"></div>
                             </h5>
                             <a href="#" class="btn btn-light ">添加至购物车</a>
                         </div>

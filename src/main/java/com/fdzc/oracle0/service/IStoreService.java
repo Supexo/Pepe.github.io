@@ -5,6 +5,8 @@ import com.fdzc.oracle0.bean.Game;
 import java.util.List;
 
 public interface IStoreService {
-    public List<Game> newestGames();
-    public Game getGames(int gid);
+    public Game getGame(int gid);
+    public List<Game> getLatestGames();
+    public List<Game> getGames();
+    public List<Game> getNavGames();
 }

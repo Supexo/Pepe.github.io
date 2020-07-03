@@ -10,18 +10,27 @@ import java.util.List;
 @Service
 public class StoreServiceImpl implements IStoreService{
     @Autowired
-    IStoreDao userDao;
+    IStoreDao storeDao;
 
     @Override
-    public List<Game> newestGames(){
-        List<Game> games = new ArrayList<Game>();
-        games = userDao.getTestGames();
+    public List<Game> getLatestGames(){
         //返回最新上架的十个游戏
-        return games;
+        return storeDao.getLatestGames();
     }
 
     @Override
-    public Game getGames(int gid) {
-        return null;
+    public List<Game> getGames() {
+        return storeDao.getTestGames();
+    }
+
+    @Override
+    public List<Game> getNavGames() {
+
+        return storeDao.getNavGames();
+    }
+
+    @Override
+    public Game getGame(int gid) {
+        return storeDao.getGame(gid);
     }
 }

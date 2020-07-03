@@ -22,7 +22,7 @@ public interface IStoreDao {
     // 获取最新的10款游戏
     public List<Game> getLatestGames();
     // 获取三个游戏渲染首页
-    public List<Game> getNavGames(int gid1,int gid2, int gid3);
+    public List<Game> getNavGames();
     // 测试用，可删除
     public List<Game> getTestGames();
     // 退款
