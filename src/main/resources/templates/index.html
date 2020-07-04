@@ -10,33 +10,34 @@
 <div class="container-fluid pl-0 pr-0" style="background: #1b2838;">
     <!--        头-->
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-        <a class="navbar-brand" href="#" style="line-height: 44px;">
-            <img src="header_logo.png" width="176" height="44" class="d-inline-block align-top" alt=""
+        <a class="navbar-brand" href="/index" style="line-height: 44px;">
+            <img src="/header_logo.png" width="176" height="44" class="d-inline-block align-top" alt=""
                  loading="lazy">
             伪·蒸汽动力
         </a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" HREF="#">
+                <a class="nav-link" HREF="/index">
                     商店
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" HREF="#">
+                <a class="nav-link" HREF="/repository">
                     库
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" HREF="#">
+                <a class="nav-link" HREF="/home">
                     个人资料
                 </a>
             </li>
         </ul>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2 bg-light" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline" action="/search">
+            <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
+
     <div style="max-width:1060px; margin: auto;" class="pt-3">
         <!--            滚动横幅 ：随即选3个幸运游戏，将其放在这儿-->
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="margin-bottom: 20px">
@@ -47,7 +48,7 @@
             </ol>
             <div class="carousel-inner">
                 <div th:class="'carousel-item'+${var.first?' active':''}" th:each="item, var:${navs}">
-                    <img th:src="${item.getMainImg()}+'/0.jpg'" class="d-block w-100" alt="...">
+                    <img th:src="${item.mainImg}+'/0.jpg'" class="d-block w-100" alt="...">
                 </div>
 
             </div>

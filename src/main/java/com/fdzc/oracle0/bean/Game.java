@@ -1,5 +1,6 @@
 package com.fdzc.oracle0.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -42,7 +43,7 @@ public class Game {
         this.mainImg = mainImg;
         this.gameFile = gameFile;
         this.status = status;
-        this.tag = tag;
+        this.tag = new ArrayList<String>(tag);
     }
 
     public Game() {
@@ -53,11 +54,11 @@ public class Game {
     }
 
     public List<String> getTag() {
-        return tag;
+        return new ArrayList<String>(this.tag);
     }
 
     public void setTag(List<String> tag) {
-        this.tag = tag;
+        this.tag = new ArrayList<String>(tag);
     }
 
     public void setGid(Integer gid) {
