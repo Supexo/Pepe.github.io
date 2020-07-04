@@ -11,17 +11,16 @@ public class UserServiceImpl implements IUserService{
     IUserDao userDao;
 
     @Override
-    public boolean checkUserLogin(String username,String password) {
-        boolean result;
+    public User checkUserLogin(String username,String password) {
         User u = userDao.getUser(username);
-
-        if(u==null){
-            result = false;
-        }else if(u.getPassword().equals(password)){
-            result = true;
-        }else{
-            result = false;
+        if(password.equals(u.getPassword())){
+            return u;
         }
-        return result;
+        return null;
+    }
+
+    @Override
+    public User getUserByCookie(String cookie) {
+        return userDao.getUserByCookie(cookie);
     }
 }

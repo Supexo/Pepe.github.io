@@ -8,17 +8,27 @@ public class User {
     private String password;
     private String avatar;
     private Integer balance;
+    private String cookie;
 
     public User() {
     }
 
-    public User(Integer uid, UserType type, String name, String password, String avatar, Integer balance) {
+    public User(Integer uid, UserType type, String name, String password, String avatar, Integer balance, String cookie) {
         this.uid = uid;
         this.type = type;
         this.name = name;
         this.password = password;
         this.avatar = avatar;
         this.balance = balance;
+        this.cookie = cookie;
+    }
+
+    public String getCookie() {
+        return cookie;
+    }
+
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
     }
 
     public String getPassword() {

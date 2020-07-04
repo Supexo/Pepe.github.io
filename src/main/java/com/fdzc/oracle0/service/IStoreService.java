@@ -10,4 +10,6 @@ public interface IStoreService {
     public List<Game> getGames();
     public List<Game> getGames(String keyword, String page);
     public List<Game> getNavGames();
+    // 查询购物车 - 一页十个
+    public List<Game> getCart(int uid, String page);
 }

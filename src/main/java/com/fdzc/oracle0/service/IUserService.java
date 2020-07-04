@@ -1,5 +1,8 @@
 package com.fdzc.oracle0.service;
 
+import com.fdzc.oracle0.bean.User;
+
 public interface IUserService {
-    public boolean checkUserLogin(String username, String password);
+    public User checkUserLogin(String username, String password);
+    public User getUserByCookie(String cookie);
 }

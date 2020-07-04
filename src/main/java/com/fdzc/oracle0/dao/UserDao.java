@@ -13,9 +13,9 @@ public class UserDao implements IUserDao{
     private List<User> users;
     private void setTestUser(){
         users = new ArrayList<>();
-        users.add(new User(1001, UserType.DEFAULT ,"TypeAlpha","123456aa","",10000));
-        users.add(new User(1002, UserType.DEFAULT ,"Komachi","123456aa","",10000));
-        users.add(new User(1003, UserType.DEFAULT ,"Kirin","123456aa","",10000));
+        users.add(new User(1001, UserType.DEFAULT ,"TypeAlpha","123456aa","",10000,"TypeAlpha12333"));
+        users.add(new User(1002, UserType.DEFAULT ,"Komachi","123456aa","",10000,"Komachi12333"));
+        users.add(new User(1003, UserType.DEFAULT ,"Kirin","123456aa","",10000,"Kirin12333"));
     }
 
     @Override
@@ -60,6 +60,18 @@ public class UserDao implements IUserDao{
         setTestUser();
         for(User u:users){
             if(name.equals(u.getName())){
+                return u;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User getUserByCookie(String cookie) {
+
+        setTestUser();
+        for (User u:users){
+            if(cookie.equals(u.getCookie())){
                 return u;
             }
         }
