@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>伪·蒸汽动力 登录</title>
+</head>
+<body>
+<div class="container-fluid pl-0 pr-0" style="background: #1b2838;">
+    <!--        头-->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <a class="navbar-brand" href="/index" style="line-height: 44px;">
+            <img src="/header_logo.png" width="176" height="44" class="d-inline-block align-top" alt=""
+                 loading="lazy">
+            伪·蒸汽动力
+        </a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" HREF="/index">
+                    商店
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" HREF="/repository">
+                    库
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" HREF="/home">
+                    个人资料
+                </a>
+            </li>
+        </ul>
+        <form class="form-inline" action="/search">
+            <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search"
+                   aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+    <div class="container" style="min-height: 650px;padding-top:100px">
+        <div class=" row">
+            <h1 class="col-6 text-light" style="text-align: center">欢迎来到 伪·蒸汽动力</h1>
+
+<!--            登录-->
+            <form class=" col-4 text-light" action="/loginCheck">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div style="height: 30px"></div>
+    <footer class="text-light bg-dark">
+        <div style="max-width:1060px; margin: auto;" class="pt-5 pb-5">
+            Powered by TypeAlpha, Kirin, Komachi
+        </div>
+    </footer>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</html>

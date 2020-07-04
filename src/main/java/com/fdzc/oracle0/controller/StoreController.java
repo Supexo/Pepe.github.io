@@ -59,4 +59,11 @@ public class StoreController {
         mav.addObject("keyword",keyword);
         return mav;
     }
+
+    @RequestMapping("/cart")
+    public ModelAndView search(@RequestParam(name="page",required = false)String page){
+        ModelAndView mav = new ModelAndView();
+
+        return mav;
+    }
 }
