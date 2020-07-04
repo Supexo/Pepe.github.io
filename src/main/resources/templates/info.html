@@ -80,6 +80,39 @@
             </div>
 
             <div class="col-8 ">
+<!--                标签card-->
+                <div class="card bg-dark text-light mb-2">
+                    <div class="card-header">
+                        本游戏包含的标签
+                    </div>
+                    <div class="card-body">
+                        <h3 style="display: inline-block;margin-bottom: 0" th:each="item,var:${game.tag}">
+                            <a th:href="'/search?keyword='+${item}">
+                                <span class="badge badge-secondary" th:text="${item}"></span>
+                            </a>
+                        </h3>
+                    </div>
+                </div>
+<!--                发行信息card-->
+                <div class="card bg-dark text-light mb-2">
+                    <div class="card-header">
+                        发行信息
+                    </div>
+                    <div class="card-body">
+                        <h3 style="display: inline-block;margin-bottom: 0">
+                            <a th:href="'/search?keyword='+${game.pub}">
+                                <span class="badge badge-secondary" th:text="'发行商: '+${game.pub}"></span>
+                            </a>
+                        </h3>
+                        <h3 style="display: inline-block;margin-bottom: 0">
+                            <a th:href="'/search?keyword='+${game.dev}">
+                                <span class="badge badge-secondary" th:text="'开发商: '+${game.dev}"></span>
+                            </a>
+                        </h3>
+                    </div>
+                </div>
+
+<!--                购买card-->
                 <div class="card bg-dark text-light">
                     <div class="card-body">
                         <h4 class="card-title" th:text="'购买 '+${game.name}"></h4>
