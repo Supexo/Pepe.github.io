@@ -17,9 +17,12 @@ public interface IUserDao {
     // 获取用户列表 - 一页10个
     public List<User> getUsers(int page);
     // 查询用户
-    public User getUser(int gid);
+    public User getUser(int uid);
     public User getUser(String name);
+    public User getUserByCookie(String cookie);
     // 改余额
     public void setBalance(int uid);
+    // 由cookie获取用户
+
 
 }

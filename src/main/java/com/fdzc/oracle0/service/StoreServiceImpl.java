@@ -53,4 +53,54 @@ public class StoreServiceImpl implements IStoreService{
     public Game getGame(int gid) {
         return storeDao.getGame(gid);
     }
+
+    @Override
+    public List<Game> getCart(int uid, String page) {
+        List<Game> games = new ArrayList<>();
+
+        // 返回gid为-1的说明参数查询错误
+        try {
+            if(page==null){
+                page = "1";
+            }
+            int p = Integer.parseInt(page);
+            games = storeDao.getCart(uid,p);
+        }catch (NumberFormatException e){
+            // System.out.println("数字错误");
+            Game g = new Game();
+            g.setGid(-1);
+            games.add(g);
+        }
+        return games;
+    }
+
+    @Override
+    public boolean addToCart(String gid, int uid) {
+        try {
+            int g = Integer.parseInt(gid);
+            return storeDao.addToCart(g,uid);
+        }catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void addGame(Game game) {
+
+    }
+
+    @Override
+    public boolean add(int gid, String tagName) {
+        return false;
+    }
+
+    @Override
+    public boolean stopSell(int gid) {
+        return false;
+    }
+
+    @Override
+    public boolean changeGame(Game game) {
+        return false;
+    }
 }

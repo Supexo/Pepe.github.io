@@ -37,7 +37,26 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
-    <h1 class="text-light" style="min-height: 1000px;line-height: 1000px;text-align: center">错误！</h1>
+    <div class="container">
+        <h1 class="text-light" style="min-height: 100px;line-height: 100px;">管理平台</h1>
+        <form action="/managerSearchGame" method="post">
+            <div class="form-group text-light">
+                <label for="formGroupExampleInput">搜索游戏</label>
+                <input type="text" name="keyword" class="form-control mb-2" id="formGroupExampleInput" placeholder="搜索游戏">
+                <button type="submit" class="btn btn-primary mb-2">提交</button>
+            </div>
+        </form>
+
+        <form action="/managerSearchUser" method="post">
+            <div class="form-group text-light">
+                <label for="formGroupExampleInput1">搜索用户</label>
+                <input type="text" name="keyword" class="form-control mb-2" id="formGroupExampleInput1" placeholder="搜索用户">
+                <button type="submit" class="btn btn-primary mb-2">提交</button>
+            </div>
+        </form>
+
+    </div>
+
     <div style="height: 30px"></div>
     <footer class="text-light bg-dark">
         <div style="max-width:1060px; margin: auto;" class="pt-5 pb-5">

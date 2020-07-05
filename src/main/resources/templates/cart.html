@@ -21,27 +21,38 @@
                     商店
                 </a>
             </li>
-            <!--            <li class="nav-item">-->
-            <!--                <a class="nav-link" HREF="/repository">-->
-            <!--                    库-->
-            <!--                </a>-->
-            <!--            </li>-->
-            <!--            <li class="nav-item">-->
-            <!--                <a class="nav-link" HREF="/home">-->
-            <!--                    个人资料-->
-            <!--                </a>-->
-            <!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" HREF="/repository">-->
+<!--                    库-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" HREF="/home">-->
+<!--                    个人资料-->
+<!--                </a>-->
+<!--            </li>-->
         </ul>
         <form class="form-inline" action="/search">
             <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
-    <div style="max-width:1560px; margin: auto;" class="pt-3">
+
+
+    <div style="max-width:1060px; margin: auto;" class="pt-3">
+
+
+        <div th:if="${err == '1'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>添加失败！</strong> 游戏可能已在购物车中/已在库中，或者已经下架。
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <!--            搜索结果-->
         <div class="table-responsive">
-            <h2 th:text="'“'+${keyword}+'”的搜索结果'" class="text-light" style="min-height: 100px;line-height: 100px;"></h2>
-            <h2 th:if="${games.size()==0}" class="text-light" style="min-height: 800px;line-height: 800px;text-align: center">No Result</h2>
+            <h2 class="text-light" style="min-height: 100px;line-height: 100px;">购物车</h2>
+            <h2 th:if="${games.size()==0}" class="text-light" style="min-height: 800px;line-height: 800px;text-align: center">购物车为空</h2>
             <table th:if="${games.size()!=0}" class="table table-dark">
                 <thead>
                 <tr>
@@ -65,22 +76,15 @@
                             <div style="display: inline-block;" th:text="'$'+${(item.price * ((100 - item.discount)/100.0) )/100.0}"></div>
                         </h5>
                     </td>
-                    <td class="pt-0 pb-0" style="text-align: center">
-                        <div style="display: inline-block;line-height: 108px">
-                            <a th:href="'/info/'+${item.gid}">
-                                <button type="button" class="btn btn-secondary">商品详情页</button>
+                    <td class="pt-0 pb-0" width="245" style="text-align: center">
+                        <div style="display: inline-block; line-height: 108px">
+                            <a th:href="'/purchase/'+${item.gid}">
+                                <button type="button" class="btn btn-success">结算此项目</button>
                             </a>
-                            <a th:href="'/addToCart/'+${item.gid}">
-                                <button type="button" class="btn btn-light">加入购物车</button>
-                            </a>
-                            <a th:if="${manage==1}" th:href="'/edit/'+${item.gid}">
-                                <button type="button" class="btn btn-light">编辑</button>
-                            </a>
-                            <a th:if="${manage==1}" th:href="'/deactivate/'+${item.gid}">
-                                <button type="button" class="btn btn-light">下架游戏</button>
-                            </a>
-                            <a th:if="${manage==1}" th:href="'/addTag/'+${item.gid}">
-                                <button type="button" class="btn btn-light">添加类型标签</button>
+                        </div>
+                        <div style="display: inline-block; line-height: 108px">
+                            <a th:href="'/removeFromCart/'+${item.gid}">
+                                <button type="button" class="btn btn-secondary">移出购物车</button>
                             </a>
                         </div>
                     </td>

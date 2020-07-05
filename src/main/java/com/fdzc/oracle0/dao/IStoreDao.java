@@ -7,24 +7,34 @@ import java.util.List;
 public interface IStoreDao {
     // 获取某个游戏的搜索结果 - 一页10个
     public List<Game> getGames(String keyWord, int page);
+
     // 获取其中一个游戏的所有信息 - 记得查tag
     public Game getGame(int gid);
-    // 加入购物车
-    public void addToCart(int gid,int uid);
-    // 删除购物车里某款游戏
-    public void deleteFromCart(int gid, int uid);
+
+    // 加入购物车 加入成功返回true，已在库中or已在购物车中or已下架返回false
+    public boolean addToCart(int gid,int uid);
+
     // 查询购物车 - 一页十个
     public List<Game> getCart(int uid, int page);
-    // 购买成功
-    public boolean addToRepository(int gid, int uid);
-    // 管理添加游戏
-    public void addGame(Game game);
+
     // 获取最新的10款游戏
     public List<Game> getLatestGames();
+
     // 获取三个游戏渲染首页
     public List<Game> getNavGames();
+
     // 测试用，可删除
     public List<Game> getTestGames();
-    // 退款
-    public void refund(int gid, int uid);
+
+    // 管理添加游戏
+    public void addGame(Game game);
+
+    // 增加tag 增加成功返回true ，有同名tag返回false
+    public boolean addTag(int gid,String tagName);
+
+    // 停止销售某款游戏 停止成功 true，失败false
+    public boolean stopSell(int gid);
+
+    // 修改某款游戏内容
+    public boolean changeGame(Game game);
 }
