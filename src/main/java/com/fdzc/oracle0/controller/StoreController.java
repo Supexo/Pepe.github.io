@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 @RestController
@@ -27,7 +28,7 @@ public class StoreController {
     IUserService userService;
 
     @RequestMapping("/index")
-    public ModelAndView getMainPage(){
+    public ModelAndView getMainPage() throws SQLException {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index");
         List<Game> games = storeService.getLatestGames();
