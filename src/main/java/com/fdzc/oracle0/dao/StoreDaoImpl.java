@@ -213,84 +213,84 @@ public class StoreDaoImpl implements IStoreDao {
 
 
     /////////////////////////////////////KOMACHI///////////////////////////////////////
-    @Override
-    public List<Game> getTestLatestGames() {    // 获取最新的10款游戏
-        CallableStatement call = null;
-        ResultSet rs = null;
-        list<Game> lst=new list<Game>();
-
-        call = conn.prepareCall("{ call 获取商城中最新10款游戏的ID(?) }");
-        call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-        call.execute();    //执行存储过程
-        rs = ((OracleCallableStatement)call).getCursor(1); //获取结果集
-        while (rs.next()) {
-            lst.add(getTestGame(rs.getInt("GID")));  //用结果集中的ID作为参数获取整个游戏的信息（Game对象），然后加入列表中
-        }
-
-        return lst;
-    }
-
-    public List<Game> getTestNavGames() {
-        CallableStatement call = null;
-        ResultSet rs = null;
-        list<Game> navGames=new list<Game>();
-
-        call = conn.prepareCall("{ call 随机获取商城中3款游戏的ID(?) }");
-        call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-        call.execute();    //执行存储过程
-        rs = ((OracleCallableStatement)call).getCursor(1); //获取结果集
-        while (rs.next()) {
-            lst.add(getTestGame(rs.getInt("GID")));  //用结果集中的ID作为参数获取整个游戏的信息（Game对象），然后加入列表中
-        }
-
-        return navGames;
-    }
-
-    @Override
-    public Game getTestGame(int gid) {   // 根据 ID 获取某个游戏的所有信息 - 记得查tag
-        CallableStatement call = null;
-        ResultSet rs = null
-
-        call = conn.prepareCall("{ call 获取某个游戏除了tag的所有信息(?,?) }");
-        call.setInt(1,gid);
-        call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-        call.execute();    //执行存储过程
-        rs = ((OracleCallableStatement)call).getCursor(2); //获取结果
-
-        Game game = new Game();
-        game.setGid(rs.getInt("GID"));
-        game.setName(rs.getString("NAME"));
-        game.setDev(rs.getString("DEVELOPER"));
-        game.setPub(rs.getString("PUBLISHER"));
-        game.setPrice(rs.getInt("PRICE"));
-        game.setDiscount(rs.getInt("DISCOUNT"));
-        game.setSummary(rs.getString("SUMMARY"));
-        game.setPubDate(rs.getString("ISSUED_DATE"));
-        game.setMainImg(rs.getString("MAIN_IMAGE"));
-        game.setGameFile(rs.getString("GAME_FILE"));
-
-        list<String> tag = getGameTags(gid);
-        game.setTag(tag);
-
-        return game;
-    }
-
-    private List<String> getGameTags(int gid){
-        CallableStatement call = null;
-        ResultSet rs = null
-        List<String> lst = new ArrayList<String>();
-
-        call = conn.prepareCall("{ call 获取某个游戏的tag集(?,?) }");
-        call.setInt(1,gid);
-        call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-        call.execute();    //执行存储过程
-        rs = ((OracleCallableStatement)call).getCursor(2); //获取结果集
-        while (rs.next()) {
-            lst.add(rs.getString("NAME"));
-        }
-
-        return lst;
-    }
+//    @Override
+//    public List<Game> getTestLatestGames() {    // 获取最新的10款游戏
+//        CallableStatement call = null;
+//        ResultSet rs = null;
+//        list<Game> lst=new list<Game>();
+//
+//        call = conn.prepareCall("{ call 获取商城中最新10款游戏的ID(?) }");
+//        call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+//        call.execute();    //执行存储过程
+//        rs = ((OracleCallableStatement)call).getCursor(1); //获取结果集
+//        while (rs.next()) {
+//            lst.add(getTestGame(rs.getInt("GID")));  //用结果集中的ID作为参数获取整个游戏的信息（Game对象），然后加入列表中
+//        }
+//
+//        return lst;
+//    }
+//
+//    public List<Game> getTestNavGames() {
+//        CallableStatement call = null;
+//        ResultSet rs = null;
+//        list<Game> navGames=new list<Game>();
+//
+//        call = conn.prepareCall("{ call 随机获取商城中3款游戏的ID(?) }");
+//        call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+//        call.execute();    //执行存储过程
+//        rs = ((OracleCallableStatement)call).getCursor(1); //获取结果集
+//        while (rs.next()) {
+//            lst.add(getTestGame(rs.getInt("GID")));  //用结果集中的ID作为参数获取整个游戏的信息（Game对象），然后加入列表中
+//        }
+//
+//        return navGames;
+//    }
+//
+//    @Override
+//    public Game getTestGame(int gid) {   // 根据 ID 获取某个游戏的所有信息 - 记得查tag
+//        CallableStatement call = null;
+//        ResultSet rs = null
+//
+//        call = conn.prepareCall("{ call 获取某个游戏除了tag的所有信息(?,?) }");
+//        call.setInt(1,gid);
+//        call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+//        call.execute();    //执行存储过程
+//        rs = ((OracleCallableStatement)call).getCursor(2); //获取结果
+//
+//        Game game = new Game();
+//        game.setGid(rs.getInt("GID"));
+//        game.setName(rs.getString("NAME"));
+//        game.setDev(rs.getString("DEVELOPER"));
+//        game.setPub(rs.getString("PUBLISHER"));
+//        game.setPrice(rs.getInt("PRICE"));
+//        game.setDiscount(rs.getInt("DISCOUNT"));
+//        game.setSummary(rs.getString("SUMMARY"));
+//        game.setPubDate(rs.getString("ISSUED_DATE"));
+//        game.setMainImg(rs.getString("MAIN_IMAGE"));
+//        game.setGameFile(rs.getString("GAME_FILE"));
+//
+//        list<String> tag = getGameTags(gid);
+//        game.setTag(tag);
+//
+//        return game;
+//    }
+//
+//    private List<String> getGameTags(int gid){
+//        CallableStatement call = null;
+//        ResultSet rs = null
+//        List<String> lst = new ArrayList<String>();
+//
+//        call = conn.prepareCall("{ call 获取某个游戏的tag集(?,?) }");
+//        call.setInt(1,gid);
+//        call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+//        call.execute();    //执行存储过程
+//        rs = ((OracleCallableStatement)call).getCursor(2); //获取结果集
+//        while (rs.next()) {
+//            lst.add(rs.getString("NAME"));
+//        }
+//
+//        return lst;
+//    }
 
     /////////////////////////////////////KOMACHI///////////////////////////////////////
 
