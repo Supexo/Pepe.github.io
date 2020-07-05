@@ -107,6 +107,7 @@
         <div style="max-width:1060px; margin: auto;" class="pt-5 pb-5">
             Powered by TypeAlpha, Kirin, Komachi<br>
             <a class="text-light" href="/manage">管理入口</a>
+            <a th:each="cookie:${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('username')}" class="text-light" href="/logout">登出</a>
         </div>
     </footer>
 </div>

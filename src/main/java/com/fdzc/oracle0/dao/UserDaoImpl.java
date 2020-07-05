@@ -16,6 +16,7 @@ public class UserDaoImpl implements IUserDao{
         users.add(new User(1001, UserType.DEFAULT ,"TypeAlpha","123456aa","",10000,"TypeAlpha12333"));
         users.add(new User(1002, UserType.DEFAULT ,"Komachi","123456aa","",10000,"Komachi12333"));
         users.add(new User(1003, UserType.DEFAULT ,"Kirin","123456aa","",10000,"Kirin12333"));
+        users.add(new User(1004, UserType.ADMINISTER ,"G_fat","123456aa","",10000,"G_fat12333"));
     }
 
     @Override

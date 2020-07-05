@@ -2,6 +2,7 @@ package com.fdzc.oracle0.controller;
 
 import com.fdzc.oracle0.bean.Game;
 import com.fdzc.oracle0.bean.User;
+import com.fdzc.oracle0.bean.UserType;
 import com.fdzc.oracle0.service.IUserService;
 import com.fdzc.oracle0.service.StoreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,13 +83,17 @@ public class StoreController {
     }
 
     @RequestMapping("/search")
-    public ModelAndView search(@RequestParam String keyword, @RequestParam(name="page",required = false) String page){
+    public ModelAndView search(@RequestParam(name="keyword",required = false) String keyword, @RequestParam(name="page",required = false) String page){
 
         ModelAndView mav = new ModelAndView();
         List<Game> games;
+        if(keyword==null){
+            keyword="";
+        }
         games = storeService.getGames(keyword, page);
         mav.setViewName("search");
         mav.addObject("games",games);
+
         mav.addObject("keyword",keyword);
         return mav;
     }
@@ -124,6 +129,8 @@ public class StoreController {
         return null;
     }
 
+
+
     @RequestMapping("/purchase/{gid}")
     public String purchase(){
         return "暂时不支持购买功能";
@@ -132,5 +139,68 @@ public class StoreController {
     @RequestMapping("/removeFromCart/{gid}")
     public String removeFromCart(){
         return "暂时不支持操作购物车";
+    }
+
+    @RequestMapping("/manage")
+    public ModelAndView manage(HttpServletResponse response,HttpServletRequest request) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        mav.setViewName("manage");
+                    }else {
+                        mav.setViewName("notFound");
+                        return mav;
+                    }
+                    return mav;
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping("/managerSearchGame")
+    public ModelAndView managerSearchGame(HttpServletResponse response,HttpServletRequest request,@RequestParam(name="keyword",required = false) String keyword, @RequestParam(name="page",required = false) String page) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        List<Game> games;
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        games = storeService.getGames(keyword, page);
+                        mav.setViewName("search");
+                        mav.addObject("manage",1);
+                        mav.addObject("keyword",keyword);
+                        mav.addObject("games",games);
+                    }else {
+                        mav.setViewName("notFound");
+                        return mav;
+                    }
+                    return mav;
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
     }
 }

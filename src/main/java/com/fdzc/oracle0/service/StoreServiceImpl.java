@@ -85,7 +85,22 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public void deleteFromCart(String gid, int uid) {
+    public void addGame(Game game) {
 
+    }
+
+    @Override
+    public boolean add(int gid, String tagName) {
+        return false;
+    }
+
+    @Override
+    public boolean stopSell(int gid) {
+        return false;
+    }
+
+    @Override
+    public boolean changeGame(Game game) {
+        return false;
     }
 }

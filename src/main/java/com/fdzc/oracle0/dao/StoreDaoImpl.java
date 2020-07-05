@@ -157,10 +157,6 @@ public class StoreDaoImpl implements IStoreDao {
 
         return result;
     }
-    @Override
-    public void deleteFromCart(int gid, int uid) {
-
-    }
 
     @Override
     public List<Game> getCart(int uid, int page) {
@@ -207,10 +203,19 @@ public class StoreDaoImpl implements IStoreDao {
     }
 
     @Override
-    public void refund(int gid, int uid) {
-
+    public boolean addTag(int gid, String tagName) {
+        return false;
     }
 
+    @Override
+    public boolean stopSell(int gid) {
+        return false;
+    }
+
+    @Override
+    public boolean changeGame(Game game) {
+        return false;
+    }
 
     /////////////////////////////////////KOMACHI///////////////////////////////////////
 //    @Override
