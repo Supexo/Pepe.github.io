@@ -2,6 +2,7 @@ package com.fdzc.oracle0.dao;
 
 import com.fdzc.oracle0.bean.Game;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IStoreDao {
@@ -18,7 +19,7 @@ public interface IStoreDao {
     public List<Game> getCart(int uid, int page);
 
     // 获取最新的10款游戏
-    public List<Game> getLatestGames();
+    public List<Game> getLatestGames() throws SQLException;
 
     // 获取三个游戏渲染首页
     public List<Game> getNavGames();

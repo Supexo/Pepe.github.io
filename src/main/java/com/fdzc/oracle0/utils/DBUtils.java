@@ -2,12 +2,16 @@ package com.fdzc.oracle0.utils;
 
 import java.sql.*;
 
-public class DBUtils_Kirin {
+public class DBUtils {
     // 连接串,第一部分什么连接串odbc,jdbc;第二部分什么厂商的数据库;第三部分什么数据库的什么类型
     // @后接 数据库IP地址:监听器端口:SID (oracle数据库版本)
-    private static final String CONN_STR = "jdbc:oracle:thin:@192.168.1.155:4004:orcl";
-    private static final String USERNAME = "kirin";
-    private static final String PWD = "oracle";
+//    private static final String CONN_STR = "jdbc:oracle:thin:@192.168.1.155:4004:orcl";
+//    private static final String USERNAME = "kirin";
+//    private static final String PWD = "oracle";
+
+    private static final String CONN_STR="jdbc:oracle:thin:@192.168.1.188:1521:orcl";
+    private static final String USERNAME="tester0";
+    private static final String PWD="abc12345";
 
     /***
      * 获取连接
