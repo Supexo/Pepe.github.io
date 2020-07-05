@@ -5,6 +5,7 @@ import com.fdzc.oracle0.dao.IStoreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -13,7 +14,7 @@ public class StoreServiceImpl implements IStoreService{
     IStoreDao storeDao;
 
     @Override
-    public List<Game> getLatestGames(){
+    public List<Game> getLatestGames() throws SQLException {
         //返回最新上架的十个游戏
         return storeDao.getLatestGames();
     }

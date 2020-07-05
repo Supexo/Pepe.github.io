@@ -13,11 +13,10 @@ public class Game {
     private String summary;
     private String pubDate;
     private String mainImg;
-    private String gameFile;
     private Boolean status;
     private List<String> tag;
 
-    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, String pubDate, String mainImg, String gameFile, Boolean status) {
+    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, String pubDate, String mainImg, Boolean status) {
         this.gid = gid;
         this.name = name;
         this.dev = dev;
@@ -27,11 +26,10 @@ public class Game {
         this.summary = summary;
         this.pubDate = pubDate;
         this.mainImg = mainImg;
-        this.gameFile = gameFile;
         this.status = status;
     }
 
-    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, String pubDate, String mainImg, String gameFile, Boolean status, List<String> tag) {
+    public Game(Integer gid, String name, String dev, String pub, Integer price, Integer discount, String summary, String pubDate, String mainImg, Boolean status, List<String> tag) {
         this.gid = gid;
         this.name = name;
         this.dev = dev;
@@ -41,7 +39,6 @@ public class Game {
         this.summary = summary;
         this.pubDate = pubDate;
         this.mainImg = mainImg;
-        this.gameFile = gameFile;
         this.status = status;
         this.tag = new ArrayList<String>(tag);
     }
@@ -127,14 +124,6 @@ public class Game {
 
     public void setMainImg(String mainImg) {
         this.mainImg = mainImg;
-    }
-
-    public String getGameFile() {
-        return gameFile;
-    }
-
-    public void setGameFile(String gameFile) {
-        this.gameFile = gameFile;
     }
 
     public Boolean getStatus() {
