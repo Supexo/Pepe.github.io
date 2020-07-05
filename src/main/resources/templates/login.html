@@ -21,20 +21,19 @@
                     商店
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" HREF="/repository">
-                    库
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" HREF="/home">
-                    个人资料
-                </a>
-            </li>
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" HREF="/repository">-->
+            <!--                    库-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" HREF="/home">-->
+            <!--                    个人资料-->
+            <!--                </a>-->
+            <!--            </li>-->
         </ul>
         <form class="form-inline" action="/search">
-            <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search"
-                   aria-label="Search">
+            <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
@@ -43,7 +42,7 @@
             <h1 class="col-6 text-light" style="text-align: center" th:text="${err=='1'?'用户名/密码错误，请重试':'欢迎来到 伪·蒸汽动力'}"></h1>
 
 <!--            登录-->
-            <form class=" col-4 text-light" action="/loginCheck">
+            <form class=" col-4 text-light" action="/loginCheck" method="post">
                 <div class="form-group">
                     <label for="exampleInputEmail1">用户名</label>
                     <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -59,7 +58,8 @@
     <div style="height: 30px"></div>
     <footer class="text-light bg-dark">
         <div style="max-width:1060px; margin: auto;" class="pt-5 pb-5">
-            Powered by TypeAlpha, Kirin, Komachi
+            Powered by TypeAlpha, Kirin, Komachi<br>
+            <a class="text-light" href="/manage">管理入口</a>
         </div>
     </footer>
 </div>

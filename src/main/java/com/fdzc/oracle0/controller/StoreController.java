@@ -37,13 +37,35 @@ public class StoreController {
     }
 
     @RequestMapping("/addToCart/{gid}")
-    public ModelAndView addToCart(@PathVariable Integer gid){
+    public void addToCart(HttpServletRequest request, HttpServletResponse response,@PathVariable String gid) throws IOException {
         /*
         TODO:检查用户登陆，没登陆去登录页面，否则直接进入购物车页面
          */
-        ModelAndView mav = new ModelAndView();
+        // 检查用户登录
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+//                    System.out.println(user.getName());
+                    if(storeService.addToCart(gid,user.getUid())){
+                        response.sendRedirect("/cart");
+                    }else{
+                        //添加失败
+                        response.sendRedirect("/cart?err=1");
+                    }
 
-        return mav;
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
     }
 
     @RequestMapping("/info/{gid}")
@@ -72,23 +94,43 @@ public class StoreController {
     }
 
     @RequestMapping("/cart")
-    public ModelAndView search(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="page",required = false)String page) throws IOException {
+    public ModelAndView search(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="page",required = false)String page,@RequestParam(name="err",required = false) String err) throws IOException {
         ModelAndView mav = new ModelAndView();
         Cookie[] cookie = request.getCookies();
         if(cookie==null){
             response.sendRedirect("/login");
         }else{
-            User user;
+            User user = null;
             for(Cookie c:cookie){
                 if("user".equals(c.getName())){
                     // 有记录登录状态
                     user = userService.getUserByCookie(c.getValue());
+//                    System.out.println(user.getName());
                     List<Game> games = storeService.getCart(user.getUid(),page);
+                    mav.setViewName("cart");
+                    mav.addObject("games",games);
+                    if(err==null){
+                        err = "0";
+                    }
+                    mav.addObject("err",err);
+                    return mav;
                 }
             }
             // 有cookie但是没有记录登录状态
-            response.sendRedirect("/login");
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
         }
-        return mav;
+        return null;
+    }
+
+    @RequestMapping("/purchase/{gid}")
+    public String purchase(){
+        return "暂时不支持购买功能";
+    }
+
+    @RequestMapping("/removeFromCart/{gid}")
+    public String removeFromCart(){
+        return "暂时不支持操作购物车";
     }
 }

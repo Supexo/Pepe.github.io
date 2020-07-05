@@ -1,6 +1,7 @@
 package com.fdzc.oracle0.controller;
 
 import com.fdzc.oracle0.bean.User;
+import com.fdzc.oracle0.bean.UserType;
 import com.fdzc.oracle0.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +41,18 @@ public class UserController {
             c.setMaxAge(60*10);
             c.setPath("/");
             response.addCookie(c);
-            response.sendRedirect("/index");
-        }
+            c = new Cookie("username",user.getName());
+            c.setMaxAge(60*10);
+            c.setPath("/");
+            response.addCookie(c);
+            if(user.getType()== UserType.ADMINISTER){
+                response.sendRedirect("/manage");
+            }else{
+                response.sendRedirect("/index");
+            }
 
+        }
     }
+
+
 }

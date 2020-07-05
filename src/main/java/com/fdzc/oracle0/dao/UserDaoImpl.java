@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDao implements IUserDao{
+public class UserDaoImpl implements IUserDao{
     private List<User> users;
     private void setTestUser(){
         users = new ArrayList<>();

@@ -10,7 +10,11 @@ import java.util.List;
 public class StoreDaoImpl implements IStoreDao {
     //仅作为测试用！
     private List<Game> games;
+    private List<Integer> cart = new ArrayList<>();
+
+
     private void setTestGames(){
+
         games = new ArrayList<>();
         List<String> tags = new ArrayList<>();
         tags.add("Hentai");
@@ -103,13 +107,15 @@ public class StoreDaoImpl implements IStoreDao {
     }
 
     @Override
-    public void addToCart(int gid, int uid) {
+    public boolean addToCart(int gid, int uid) {
 
-    }
-
-    @Override
-    public boolean addToRepository(int gid, int uid) {
-        return false;
+        for(Integer i:cart){
+            if(i.equals(gid)){
+                return false;
+            }
+        }
+        cart.add(gid);
+        return true;
     }
 
     @Override
@@ -158,7 +164,16 @@ public class StoreDaoImpl implements IStoreDao {
 
     @Override
     public List<Game> getCart(int uid, int page) {
-        return null;
+        List<Game> result = new ArrayList<>();
+        setTestGames();
+        for(Integer i:cart){
+            for(Game g:games){
+                if(g.getGid().equals(i)){
+                    result.add(g);
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -195,4 +210,5 @@ public class StoreDaoImpl implements IStoreDao {
     public void refund(int gid, int uid) {
 
     }
+
 }

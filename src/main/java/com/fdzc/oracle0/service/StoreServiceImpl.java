@@ -74,4 +74,18 @@ public class StoreServiceImpl implements IStoreService{
         return games;
     }
 
+    @Override
+    public boolean addToCart(String gid, int uid) {
+        try {
+            int g = Integer.parseInt(gid);
+            return storeDao.addToCart(g,uid);
+        }catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void deleteFromCart(String gid, int uid) {
+
+    }
 }
