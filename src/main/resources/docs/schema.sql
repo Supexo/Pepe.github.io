@@ -41,6 +41,7 @@ Create table tbl_user_game_relation(
   UGR int,
   USERID int,
   GID int,
+  STATUS int,
   constraint PK_UGR_FS PRIMARY KEY (UGR),
   constraint FK_UGR_USER_FS FOREIGN KEY (USERID) REFERENCES tbl_users(USERID),
   constraint FK_UGR_GAME_FS FOREIGN KEY (GID) REFERENCES tbl_games(GID)
