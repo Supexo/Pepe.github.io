@@ -252,6 +252,7 @@ public class StoreDaoImpl implements IStoreDao {
         CallableStatement call = null;
         ResultSet rs = null;
         List<Game> navGames = new ArrayList<>();
+
         Connection conn = DBUtils.getConn();
         call = conn.prepareCall("{ call 随机获取商城中3款游戏的ID(?) }");
         call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
@@ -268,6 +269,7 @@ public class StoreDaoImpl implements IStoreDao {
     public Game getTestGame(int gid) throws SQLException {   // 根据 ID 获取某个游戏的所有信息 - 记得查tag
         CallableStatement call = null;
         ResultSet rs = null;
+
         Connection conn = DBUtils.getConn();
         call = conn.prepareCall("{ call 获取某个游戏除了tag的所有信息(?,?) }");
         call.setInt(1, gid);
