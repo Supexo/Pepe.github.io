@@ -2,6 +2,7 @@ package com.fdzc.oracle0.service;
 
 import com.fdzc.oracle0.bean.Game;
 import com.fdzc.oracle0.dao.IStoreDao;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public List<Game> getNavGames() {
+    public List<Game> getNavGames() throws SQLException {
 
         return storeDao.getNavGames();
     }
@@ -51,7 +52,7 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public Game getGame(int gid) {
+    public Game getGame(int gid) throws SQLException {
         return storeDao.getGame(gid);
     }
 
@@ -76,6 +77,7 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
+
     public boolean addToCart(String gid, int uid) {
         try {
             int g = Integer.parseInt(gid);
@@ -87,21 +89,25 @@ public class StoreServiceImpl implements IStoreService{
 
     @Override
     public void addGame(Game game) {
-
+        System.out.println(game.getName());
+        storeDao.addGame(game);
     }
 
     @Override
     public boolean add(int gid, String tagName) {
-        return false;
+        System.out.println(gid+" "+tagName);
+        return storeDao.addTag(gid,tagName);
     }
 
     @Override
     public boolean stopSell(int gid) {
-        return false;
+        System.out.println(gid);
+        return storeDao.stopSell(gid);
     }
 
     @Override
     public boolean changeGame(Game game) {
-        return false;
+        System.out.println(game.getName());
+        return storeDao.changeGame(game);
     }
 }

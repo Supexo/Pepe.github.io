@@ -40,9 +40,10 @@ public class DBUtils {
      *
      * @param conn
      * @param pstmt
+     * @param cstmt
      * @param rset
      */
-    public static void releaseRes(Connection conn, PreparedStatement pstmt, ResultSet rset) {
+    public static void releaseRes(Connection conn, PreparedStatement pstmt,CallableStatement cstmt, ResultSet rset) {
 
         try {
             if (rset != null) {
@@ -50,6 +51,9 @@ public class DBUtils {
             }
             if (pstmt != null) {
                 pstmt.close();
+            }
+            if (cstmt != null) {
+                cstmt.close();
             }
             if (conn != null) {
                 conn.close();

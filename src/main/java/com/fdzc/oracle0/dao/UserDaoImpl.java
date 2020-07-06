@@ -4,6 +4,7 @@ import com.fdzc.oracle0.bean.Game;
 import com.fdzc.oracle0.bean.User;
 import com.fdzc.oracle0.bean.UserType;
 import com.fdzc.oracle0.utils.DBUtils;
+import oracle.jdbc.OracleCallableStatement;
 import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
@@ -65,7 +66,22 @@ public class UserDaoImpl implements IUserDao{
             rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
 
             user.setUid(rs.getInt("UID"));
-            user.setType(rs.getInt("TYPE"));
+
+            switch (rs.getInt("TYPE")){
+                case 0:
+                    user.setType(UserType.DEFAULT);
+                    break;
+                case 1:
+                    user.setType(UserType.ADMINISTER);
+                    break;
+                case 2:
+                    user.setType(UserType.DEACTIVATED);
+                    break;
+                case 3:
+                    user.setType(UserType.BANNED);
+                    break;
+            }
+
             user.setName(rs.getString("NAME"));
             user.setPassword(rs.getString("PASSWORD"));
             user.setAvatar(rs.getString("AVATAR"));
@@ -101,13 +117,26 @@ public class UserDaoImpl implements IUserDao{
             call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
             call.execute();    //执行存储过程
             rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
-
-            user.setUid(rs.getInt("UID"));
-            user.setType(rs.getInt("TYPE"));
+            rs.next();
+            user.setUid(rs.getInt("USERID"));
+            switch (rs.getInt("TYPE")){
+                case 0:
+                    user.setType(UserType.DEFAULT);
+                    break;
+                case 1:
+                    user.setType(UserType.ADMINISTER);
+                    break;
+                case 2:
+                    user.setType(UserType.DEACTIVATED);
+                    break;
+                case 3:
+                    user.setType(UserType.BANNED);
+                    break;
+            }
             user.setName(rs.getString("NAME"));
             user.setPassword(rs.getString("PASSWORD"));
             user.setAvatar(rs.getString("AVATAR"));
-            user.setBalance(rs.getInt("BALANCE"));
+            user.setBalance(rs.getInt("SURPLUS"));
             user.setCookie(rs.getString("COOKIE"));
 
         } catch (SQLException e) {
@@ -140,13 +169,26 @@ public class UserDaoImpl implements IUserDao{
             call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
             call.execute();    //执行存储过程
             rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
-
-            user.setUid(rs.getInt("UID"));
-            user.setType(rs.getInt("TYPE"));
+            rs.next();
+            user.setUid(rs.getInt("USERID"));
+            switch (rs.getInt("TYPE")){
+                case 0:
+                    user.setType(UserType.DEFAULT);
+                    break;
+                case 1:
+                    user.setType(UserType.ADMINISTER);
+                    break;
+                case 2:
+                    user.setType(UserType.DEACTIVATED);
+                    break;
+                case 3:
+                    user.setType(UserType.BANNED);
+                    break;
+            }
             user.setName(rs.getString("NAME"));
             user.setPassword(rs.getString("PASSWORD"));
             user.setAvatar(rs.getString("AVATAR"));
-            user.setBalance(rs.getInt("BALANCE"));
+            user.setBalance(rs.getInt("SURPLUS"));
             user.setCookie(rs.getString("COOKIE"));
 
         } catch (SQLException e) {
