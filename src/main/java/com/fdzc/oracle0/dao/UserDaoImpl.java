@@ -164,7 +164,25 @@ public class UserDaoImpl implements IUserDao{
     }
 
     @Override
-    public void setBalance(int uid) {
+    public boolean setBalance(int uid) {
+        boolean result=false;
+        ResultSet rs = null;
+        Connection conn = DBUtils.getConn();
+        CallableStatement call = null;
 
+        try {
+            call = conn.prepareCall("{ call StopSell(?,?) }");  //执行2条sql语句：1.根据ID将游戏表中某个游戏的状态设置为status=0（下架）
+            call.setInt(1, gid);                     //               2.查询该条记录，条件为status=0，返回的游标绑定于这条查询语句
+            call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(2); //获取结果集
+            if(rs.next()){
+                result=true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

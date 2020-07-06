@@ -28,7 +28,7 @@ public interface IStoreDao {
     public List<Game> getTestGames();
 
     // 管理添加游戏
-    public void addGame(Game game);
+    public boolean addGame(Game game);
 
     // 增加tag 增加成功返回true ，有同名tag返回false
     public boolean addTag(int gid,String tagName);
@@ -38,4 +38,5 @@ public interface IStoreDao {
 
     // 修改某款游戏内容
     public boolean changeGame(Game game);
+
 }

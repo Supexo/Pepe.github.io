@@ -21,7 +21,7 @@ public interface IUserDao {
     public User getUser(String name);
     public User getUserByCookie(String cookie);
     // 改余额
-    public void setBalance(int uid);
+    public boolean setBalance(int uid);
     // 由cookie获取用户
 
 
