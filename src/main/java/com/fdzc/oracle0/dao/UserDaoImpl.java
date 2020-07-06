@@ -3,8 +3,13 @@ package com.fdzc.oracle0.dao;
 import com.fdzc.oracle0.bean.Game;
 import com.fdzc.oracle0.bean.User;
 import com.fdzc.oracle0.bean.UserType;
+import com.fdzc.oracle0.utils.DBUtils;
 import org.springframework.stereotype.Repository;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,37 +51,116 @@ public class UserDaoImpl implements IUserDao{
 
     @Override
     public User getUser(int uid) {
-        setTestUser();
+
+        CallableStatement call = null;
+        ResultSet rs = null;
+        User user = new User();
+        Connection conn = DBUtils.getConn();
+
+        try {
+            call = conn.prepareCall("{ call GetUserByID(?,?) }");
+            call.setInt(1, uid);
+            call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
+
+            user.setUid(rs.getInt("UID"));
+            user.setType(rs.getInt("TYPE"));
+            user.setName(rs.getString("NAME"));
+            user.setPassword(rs.getString("PASSWORD"));
+            user.setAvatar(rs.getString("AVATAR"));
+            user.setBalance(rs.getInt("BALANCE"));
+            user.setCookie(rs.getString("COOKIE"));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+
+
+/*        setTestUser();
         for(User u:users){
             if(uid==u.getUid()){
                 return u;
             }
         }
-        return null;
+        return null;*/
     }
 
     @Override
     public User getUser(String name) {
-        // 设置测试用代码
+
+        CallableStatement call = null;
+        ResultSet rs = null;
+        User user = new User();
+        Connection conn = DBUtils.getConn();
+
+        try {
+            call = conn.prepareCall("{ call GetUserByName(?,?) }");
+            call.setString(1, name);
+            call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
+
+            user.setUid(rs.getInt("UID"));
+            user.setType(rs.getInt("TYPE"));
+            user.setName(rs.getString("NAME"));
+            user.setPassword(rs.getString("PASSWORD"));
+            user.setAvatar(rs.getString("AVATAR"));
+            user.setBalance(rs.getInt("BALANCE"));
+            user.setCookie(rs.getString("COOKIE"));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+
+
+        /*// 设置测试用代码
         setTestUser();
         for(User u:users){
             if(name.equals(u.getName())){
                 return u;
             }
         }
-        return null;
+        return null;*/
     }
 
     @Override
     public User getUserByCookie(String cookie) {
 
-        setTestUser();
+        CallableStatement call = null;
+        ResultSet rs = null;
+        User user = new User();
+        Connection conn = DBUtils.getConn();
+
+        try {
+            call = conn.prepareCall("{ call GetUserByCookie(?,?) }");
+            call.setString(1, cookie);
+            call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
+
+            user.setUid(rs.getInt("UID"));
+            user.setType(rs.getInt("TYPE"));
+            user.setName(rs.getString("NAME"));
+            user.setPassword(rs.getString("PASSWORD"));
+            user.setAvatar(rs.getString("AVATAR"));
+            user.setBalance(rs.getInt("BALANCE"));
+            user.setCookie(rs.getString("COOKIE"));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+
+/*        setTestUser();
         for (User u:users){
             if(cookie.equals(u.getCookie())){
                 return u;
             }
         }
-        return null;
+        return null;*/
     }
 
     @Override
