@@ -7,14 +7,14 @@ Create sequence t_gtr_id_seq Minvalue 1001 Nomaxvalue Increment by 1 start with 
 
 --建表语句
 Create table tbl_users(
-  UID int,
+  USERID int,
   TYPE int NOT NULL,
   NAME varchar2(256) NOT NULL,
   PASSWORD varchar2(16) NOT NULL,
   AVATAR varchar2(256) NOT NULL,
   SURPLUS int NOT NULL,
   COOKIE varchar2(256) NOT NULL,
-  constraint PK_USER_FS PRIMARY KEY (UID)
+  constraint PK_USER_FS PRIMARY KEY (USERID)
 );
 
 Create table tbl_games(
@@ -24,11 +24,11 @@ Create table tbl_games(
   PUB varchar2(256) NOT NULL,
   PRICE int NOT NULL,
   DISCOUNT int NOT NULL,
-  SUMMARY varchar2(256) NOT NULL,
+  SUMMARY varchar2(512) NOT NULL,
   PUBLISH_DATE varchar2(16) NOT NULL,
   MAIN_IMAGE varchar2(256) NOT NULL,
   STATUS int NOT NULL,
-  constraint PK_GAME PRIMARY KEY (GID)
+  constraint PK_GAME_FS PRIMARY KEY (GID)
 );
 
 Create table tbl_tags(
@@ -39,10 +39,10 @@ Create table tbl_tags(
 
 Create table tbl_user_game_relation(
   UGR int,
-  UID int,
+  USERID int,
   GID int,
   constraint PK_UGR_FS PRIMARY KEY (UGR),
-  constraint FK_UGR_USER_FS FOREIGN KEY (UID) REFERENCES tbl_users(UID),
+  constraint FK_UGR_USER_FS FOREIGN KEY (USERID) REFERENCES tbl_users(USERID),
   constraint FK_UGR_GAME_FS FOREIGN KEY (GID) REFERENCES tbl_games(GID)
 );
 
@@ -56,7 +56,7 @@ Create table tbl_game_tag_relation(
 );
 
 --用户表初始化插入语句
-INSERT INTO tbl_users VALUES();
+INSERT INTO tbl_users VALUES(t_user_id_seq.nextval,1,'Kirin','1234566','',1200,'aaa');
 INSERT INTO tbl_users VALUES();
 
 --游戏表初始化插入语句
@@ -76,7 +76,7 @@ INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'If My Heart Had Wings','MoeN
 的水瀬碧偶然遇上被困在山坡上女主角小鸟。并一同亲眼目睹一架滑翔机在高空飞行时，开始了飞行梦想的旅程。','2013年6月28日','If-My-Heart-Had-Wings',1);
 INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'The logic of the miniature garden','Cabbit','SakuraGame',3600,50,'本作
 是一款有著萌系畫風，與美少女一起探索神秘的學園推理ADV作品。作為懸疑向作品，在推理解謎之外，著重強調對角色的刻畫，在充滿黑暗的“箱庭市”裡，
-作為普通人的男主無法改變現狀，遊戲從一個男主見證者的視角，給玩家傳達了城市裡人性的“惡”。','2019-6-19','',1);
+作為普通人的男主無法改變現狀，遊戲從一個男主見證者的視角，給玩家傳達了城市裡人性的“惡”。','2019-6-19','The-logic-of-the-miniature-garden',1);
 INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'Muv-Luv','aNCHOR Inc.','aNCHOR Inc.',9000,40,
 '白陵大附属柊学园3年级白银武和青梅竹马鉴纯夏，好友铠衣尊人过着愉快普通的校园生活。某一天的早上，醒来的武发现身旁睡着一名少女。
 这位名叫御剑冥夜的少女就这样住了下来。','2016-7-15','Muv-Luv',1);
@@ -103,18 +103,18 @@ INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'NEKOPARA Vol.2','NEKO WORKs'
 INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'NEKOPARA Vol.3','NEKO WORKs','Sekai Project',3600,50,
 '水無月嘉祥所經營的蛋糕店『Soleil』裡的貓娘情人持續增加，今天也好評營業中。 自尊心很強、高傲又時髦的貓娘次女楓， 與總是陷入妄想獨自一人暴走的三女桂。
  兩隻貓在姊妹之中的關係如同至交好友一般，因為一些契機而對夢想感到煩惱的楓， 想成為摯友的助力卻不知該怎麼做才好的桂，描繪一起朝著夢想成','2017-5-25','nekopara3',1);
-INSERT INTO tbl_games VALUES(1016,'STEINS;GATE','MAGES. Inc.','Spike Chunsoft Co., Ltd.',9000,60,
+INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'STEINS;GATE','MAGES. Inc.','Spike Chunsoft Co., Ltd.',9000,60,
 '由5pb.和nitroplus共同开发的《STEINS;GATE》曾被Famitsu杂志授予年度优秀游戏奖项，并在Famitsu读者调查中被评为最煽情的“催泪游戏”。
 如此扣人心弦的视觉小说游戏，现已被改编为漫画、动画及剧场版等。','2016-9-9','STEINS;GATE',1);
-INSERT INTO tbl_games VALUES(1017,'三色绘恋','HL-Galgame','SakuraGame',1100,64,'时光一逝永不回，往事只能回味。
+INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'三色绘恋','HL-Galgame','SakuraGame',1100,64,'时光一逝永不回，往事只能回味。
 100万字剧本+全程语音+100张CG的这部高中题材恋爱游戏仿佛带你回到学生时代，再经历一次高中恋爱生活。那一天，你失去了她；
 那一天，她和她同时向你伸出了双手，你不再孤身一人。','2017-9-21','Tricolour-Lovestory',1);
-INSERT INTO tbl_games VALUES(1018,'千恋万花','Yuzusoft','HIKARI FIELD',8800,16,'《千恋＊万花》是日本美少女游戏品牌Yuzusoft（柚子社）
+INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'千恋万花','Yuzusoft','HIKARI FIELD',8800,16,'《千恋万花》是日本美少女游戏品牌Yuzusoft（柚子社）
 2016年制作的一款和风恋爱题材作品。本作发售后展现出了势如破竹的高人气，并获得萌系游戏大赏的年度准大奖以及Getchu美少女游戏大赏中获得综合类
 排名第一的殊荣，在剧本、系统、图像、音乐、影片、角色等多个奖项中也均有斩获。','2020-2-14','Tricolour-Lovestory',1);
-INSERT INTO tbl_games VALUES(1019,'喵可莉的兔玩偶','赤瞳大白猫','赤瞳大白猫',1500,27,'在一个美妙的夜晚下醒来，
+INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'喵可莉的兔玩偶','赤瞳大白猫','赤瞳大白猫',1500,27,'在一个美妙的夜晚下醒来，
 猫耳少女喵露朵露薇发现自己的伙伴不见了踪影，等待着她的究竟是什么呢？','2020-2-3','Nyakori',1);
-INSERT INTO tbl_games VALUES(1020,'苍之彼方的四重奏','sprite','NekoNyan Ltd',8800,20,'《苍之彼方的四重奏》是日本知名美少女游戏品牌
+INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'苍之彼方的四重奏','sprite','NekoNyan Ltd',8800,20,'《苍之彼方的四重奏》是日本知名美少女游戏品牌
 sprite发售的超人气作品。这款以飞行运动为主题的作品在发售前夕就已集结大量人气，在发售后更是广受玩家赞誉成为经典。本作在2014年萌系游戏大赏中
 获得年度排名第一名、玩家支持赏金奖以及年度大赏。是当之无愧的年度大赢家。','2019-9-28','Aokana',1);
 
@@ -148,5 +148,9 @@ INSERT INTO tbl_user_game_relation VALUES();
 INSERT INTO tbl_user_game_relation VALUES();
 
 --游戏Tag表初始化插入语句
-INSERT INTO tbl_game_tag_relation VALUES();
+INSERT INTO tbl_game_tag_relation VALUES(
+  t_gtr_id_seq.nextval,
+  SELECT GID FROM tbl_games WHERE name = '三色绘恋',
+  SELECT TID FROM tbl_tags WHERE name = '动漫'
+);
 INSERT INTO tbl_game_tag_relation VALUES();

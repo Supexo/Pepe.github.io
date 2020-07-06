@@ -100,8 +100,8 @@ public class StoreDaoImpl implements IStoreDao {
 
     }
 
-    @Override
-    public Game getGame(int gid) {
+//    @Override
+    public Game getTGame(int gid) {
         setTestGames();//测试用数据初始化，后面记得删除
 
         for (int i = 0; i < games.size(); i++) {
@@ -112,8 +112,8 @@ public class StoreDaoImpl implements IStoreDao {
         return null;
     }
 
-    @Override
-    public boolean addToCart(int gid, int uid) {
+//    @Override
+    public boolean addToCartT(int gid, int uid) {
 
         for (Integer i : cart) {
             if (i.equals(gid)) {
@@ -129,10 +129,9 @@ public class StoreDaoImpl implements IStoreDao {
 
     }
 
-    @Override
     public List<Game> getGames(String keyWord, int page) {
 
-        /*setTestGames();//测试用数据初始化，后面记得删除
+        setTestGames();//测试用数据初始化，后面记得删除
 
         List<Game> resultGames = new ArrayList<>();
         for (Game g : games) {
@@ -140,7 +139,7 @@ public class StoreDaoImpl implements IStoreDao {
                 resultGames.add(g);
             }
         }
-        return resultGames;*/
+        return resultGames;
     }
 
     // 测试用的比对代码，真正使用时，直接在数据库查询清楚
@@ -166,8 +165,8 @@ public class StoreDaoImpl implements IStoreDao {
         return result;
     }
 
-    @Override
-    public List<Game> getCart(int uid, int page) {  // 查询购物车 - 一页十个
+//    @Override
+    public List<Game> getTCart(int uid, int page) {  // 查询购物车 - 一页十个
         List<Game> result = new ArrayList<>();
         setTestGames();
         for (Integer i : cart) {
@@ -192,8 +191,8 @@ public class StoreDaoImpl implements IStoreDao {
         return latestGames;
     }
 
-    @Override
-    public List<Game> getNavGames() {
+
+    public List<Game> getTNavGames() {
         setTestGames();//测试用数据初始化，后面记得删除
 
         List<Game> navGames = new ArrayList<>();
@@ -232,23 +231,27 @@ public class StoreDaoImpl implements IStoreDao {
         List<Game> lst = new ArrayList<>();
 
         Connection conn = DBUtils.getConn();
-
+        System.out.println("运行中?");
         try {
             call = conn.prepareCall("{ call GET10GAMESID(?) }");
             call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
             call.execute();    //执行存储过程
             rs = ((OracleCallableStatement) call).getCursor(1); //获取结果集
+            System.out.println("1");
             while (rs.next()) {
+                System.out.println("Game?");
                 lst.add(new Game(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10) == 1 ? true : false));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(lst.size());
+        DBUtils.releaseRes(conn,null,call,rs);
         return lst;
     }
 
-    public List<Game> getTestNavGames() throws SQLException {
+    @Override
+    public List<Game> getNavGames() throws SQLException {
         CallableStatement call = null;
         ResultSet rs = null;
         List<Game> navGames = new ArrayList<>();
@@ -264,8 +267,8 @@ public class StoreDaoImpl implements IStoreDao {
                 Game game = new Game();
                 game.setGid(rs.getInt("GID"));
                 game.setName(rs.getString("NAME"));
-                game.setDev(rs.getString("DEVELOPER"));
-                game.setPub(rs.getString("PUBLISHER"));
+                game.setDev(rs.getString("DEV"));
+                game.setPub(rs.getString("PUB"));
                 game.setPrice(rs.getInt("PRICE"));
                 game.setDiscount(rs.getInt("DISCOUNT"));
                 game.setSummary(rs.getString("SUMMARY"));
@@ -280,8 +283,8 @@ public class StoreDaoImpl implements IStoreDao {
         return navGames;
     }
 
-
-    public Game getTestGame(int gid) throws SQLException {   // 根据 ID 获取某个游戏的所有信息 - 记得查tag
+    @Override
+    public Game getGame(int gid) throws SQLException {   // 根据 ID 获取某个游戏的所有信息 - 记得查tag
         CallableStatement call = null;
         ResultSet rs = null;
 
@@ -296,11 +299,12 @@ public class StoreDaoImpl implements IStoreDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        rs.next();
         Game game = new Game();
         game.setGid(rs.getInt("GID"));
         game.setName(rs.getString("NAME"));
-        game.setDev(rs.getString("DEVELOPER"));
-        game.setPub(rs.getString("PUBLISHER"));
+        game.setDev(rs.getString("DEV"));
+        game.setPub(rs.getString("PUB"));
         game.setPrice(rs.getInt("PRICE"));
         game.setDiscount(rs.getInt("DISCOUNT"));
         game.setSummary(rs.getString("SUMMARY"));
@@ -332,8 +336,8 @@ public class StoreDaoImpl implements IStoreDao {
         return lst;
     }
 
-    //@Override
-    public List<Game> getTestCart(int uid, int page) {  // 查询购物车 - 一页十个
+    @Override
+    public List<Game> getCart(int uid, int page) {  // 查询购物车 - 一页十个
         CallableStatement call = null;
         ResultSet rs = null;
         List<Game> lst = new ArrayList<Game>();
@@ -346,7 +350,7 @@ public class StoreDaoImpl implements IStoreDao {
             call.execute();    //执行存储过程
             rs = ((OracleCallableStatement) call).getCursor(3); //获取结果集
             while (rs.next()) {
-                Game game = getTestGame(rs.getInt("GID"));
+                Game game = getGame(rs.getInt("GID"));
                 game.setTag(getGameTags(rs.getInt("GID")));
                 lst.add(game);
             }
@@ -358,7 +362,7 @@ public class StoreDaoImpl implements IStoreDao {
     }
 
     //@Override
-    public boolean addToCartTest(int gid, int uid) {
+    public boolean addToCart(int gid, int uid) {
         boolean result=false;
         CallableStatement call1 = null;
         Connection conn = DBUtils.getConn();

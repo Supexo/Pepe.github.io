@@ -26,7 +26,7 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public List<Game> getNavGames() {
+    public List<Game> getNavGames() throws SQLException {
 
         return storeDao.getNavGames();
     }
@@ -52,7 +52,7 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public Game getGame(int gid) {
+    public Game getGame(int gid) throws SQLException {
         return storeDao.getGame(gid);
     }
 

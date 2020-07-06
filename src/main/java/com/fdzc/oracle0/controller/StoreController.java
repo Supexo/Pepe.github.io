@@ -71,7 +71,7 @@ public class StoreController {
     }
 
     @RequestMapping("/info/{gid}")
-    public ModelAndView getInfo(@PathVariable Integer gid){
+    public ModelAndView getInfo(@PathVariable Integer gid) throws SQLException {
         ModelAndView mav = new ModelAndView();
         Game game = storeService.getGame(gid);
         if(game==null){
