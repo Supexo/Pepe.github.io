@@ -358,19 +358,34 @@ public class StoreDaoImpl implements IStoreDao {
     //@Override
     public boolean addToCartTest(int gid, int uid) {
         boolean result=false;
-        CallableStatement call = null;
+        CallableStatement call1 = null;
         Connection conn = DBUtils.getConn();
-        try {
-            call = conn.prepareCall("{ call CartAddingCheck(?,?,?) }");
-            call.setInt(1, gid);
-            call.setInt(2, uid);
-            call.registerOutParameter(3, oracle.jdbc.OracleTypes.BOOLEAN);  //需要注册输出的参数
-            call.execute();
+        boolean flag=false;
 
+        try {
+            call1 = conn.prepareCall("{ call CartAddingCheck(?,?,?) }");
+            call1.setInt(1, gid);
+            call1.setInt(2, uid);
+            call1.registerOutParameter(3, oracle.jdbc.OracleTypes.BOOLEAN);  //需要注册输出的参数
+            call1.execute();
+            flag=call1.getBoolean(3);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        if(flag){
+            CallableStatement call2 = null;
+            try {
+                call2 = conn.prepareCall("{ call AddToCart(?,?,?) }");
+                call2.setInt(1, gid);
+                call2.setInt(2, uid);
+                call2.registerOutParameter(3, oracle.jdbc.OracleTypes.BOOLEAN);  //需要注册输出的参数
+                call2.execute();
+                result=call2.getBoolean(3);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
         return result;
     }
