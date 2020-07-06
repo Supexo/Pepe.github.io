@@ -51,7 +51,7 @@ public class User {
         return type;
     }
 
-    public void setType(UserType type) {
+    public void setType(int type) {
         this.type = type;
     }
 
