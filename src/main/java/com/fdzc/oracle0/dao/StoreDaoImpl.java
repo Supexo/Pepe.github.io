@@ -131,7 +131,8 @@ public class StoreDaoImpl implements IStoreDao {
 
     @Override
     public List<Game> getGames(String keyWord, int page) {
-        setTestGames();//测试用数据初始化，后面记得删除
+
+        /*setTestGames();//测试用数据初始化，后面记得删除
 
         List<Game> resultGames = new ArrayList<>();
         for (Game g : games) {
@@ -139,7 +140,7 @@ public class StoreDaoImpl implements IStoreDao {
                 resultGames.add(g);
             }
         }
-        return resultGames;
+        return resultGames;*/
     }
 
     // 测试用的比对代码，真正使用时，直接在数据库查询清楚
@@ -166,7 +167,7 @@ public class StoreDaoImpl implements IStoreDao {
     }
 
     @Override
-    public List<Game> getCart(int uid, int page) {
+    public List<Game> getCart(int uid, int page) {  // 查询购物车 - 一页十个
         List<Game> result = new ArrayList<>();
         setTestGames();
         for (Integer i : cart) {
@@ -241,7 +242,6 @@ public class StoreDaoImpl implements IStoreDao {
                 lst.add(new Game(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10) == 1 ? true : false));
             }
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -253,12 +253,27 @@ public class StoreDaoImpl implements IStoreDao {
         ResultSet rs = null;
         List<Game> navGames = new ArrayList<>();
         Connection conn = DBUtils.getConn();
-        call = conn.prepareCall("{ call 随机获取商城中3款游戏的ID(?) }");
-        call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-        call.execute();    //执行存储过程
-        rs = ((OracleCallableStatement) call).getCursor(1); //获取结果集
-        while (rs.next()) {
-            navGames.add(getTestGame(rs.getInt("GID")));  //用结果集中的ID作为参数获取整个游戏的信息（Game对象），然后加入列表中
+
+        try {
+            call = conn.prepareCall("{ call Get3GamesRandomlyWithoutTags(?) }");
+            call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(1); //获取结果集
+            while (rs.next()) {
+                Game game = new Game();
+                game.setGid(rs.getInt("GID"));
+                game.setName(rs.getString("NAME"));
+                game.setDev(rs.getString("DEVELOPER"));
+                game.setPub(rs.getString("PUBLISHER"));
+                game.setPrice(rs.getInt("PRICE"));
+                game.setDiscount(rs.getInt("DISCOUNT"));
+                game.setSummary(rs.getString("SUMMARY"));
+                game.setPubDate(rs.getString("PUBLISH_DATE"));
+                game.setMainImg(rs.getString("MAIN_IMAGE"));
+                game.setStatus(rs.getBoolean("STATUS"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return navGames;
@@ -269,12 +284,16 @@ public class StoreDaoImpl implements IStoreDao {
         CallableStatement call = null;
         ResultSet rs = null;
         Connection conn = DBUtils.getConn();
-        call = conn.prepareCall("{ call 获取某个游戏除了tag的所有信息(?,?) }");
-        call.setInt(1, gid);
-        call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-        call.execute();    //执行存储过程
-        rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
 
+        try {
+            call = conn.prepareCall("{ call GetGameInfoWithoutTags(?,?) }");
+            call.setInt(1, gid);
+            call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(2); //获取结果
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         Game game = new Game();
         game.setGid(rs.getInt("GID"));
         game.setName(rs.getString("NAME"));
@@ -283,8 +302,9 @@ public class StoreDaoImpl implements IStoreDao {
         game.setPrice(rs.getInt("PRICE"));
         game.setDiscount(rs.getInt("DISCOUNT"));
         game.setSummary(rs.getString("SUMMARY"));
-        game.setPubDate(rs.getString("ISSUED_DATE"));
+        game.setPubDate(rs.getString("PUBLISH_DATE"));
         game.setMainImg(rs.getString("MAIN_IMAGE"));
+        game.setStatus(rs.getBoolean("STATUS"));
 
         List<String> tag = getGameTags(gid);
         game.setTag(tag);
@@ -298,7 +318,7 @@ public class StoreDaoImpl implements IStoreDao {
         List<String> lst = new ArrayList<String>();
 
         Connection conn = DBUtils.getConn();
-        call = conn.prepareCall("{ call 获取某个游戏的tag集(?,?) }");
+        call = conn.prepareCall("{ call GetGameTags(?,?) }");   //根据ID获取某个游戏的tag集
         call.setInt(1, gid);
         call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
         call.execute();    //执行存储过程
@@ -310,6 +330,50 @@ public class StoreDaoImpl implements IStoreDao {
         return lst;
     }
 
+    //@Override
+    public List<Game> getTestCart(int uid, int page) {  // 查询购物车 - 一页十个
+        CallableStatement call = null;
+        ResultSet rs = null;
+        List<Game> lst = new ArrayList<Game>();
+        Connection conn = DBUtils.getConn();
+        try {
+            call = conn.prepareCall("{ call GetCartGamesID(?,?,?) }");
+            call.setInt(1, uid);
+            call.setInt(2, page);
+            call.registerOutParameter(3, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
+            call.execute();    //执行存储过程
+            rs = ((OracleCallableStatement) call).getCursor(3); //获取结果集
+            while (rs.next()) {
+                Game game = getTestGame(rs.getInt("GID"));
+                game.setTag(getGameTags(rs.getInt("GID")));
+                lst.add(game);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lst;
+    }
+
+    //@Override
+    public boolean addToCartTest(int gid, int uid) {
+        boolean result=false;
+        CallableStatement call = null;
+        Connection conn = DBUtils.getConn();
+        try {
+            call = conn.prepareCall("{ call CartAddingCheck(?,?,?) }");
+            call.setInt(1, gid);
+            call.setInt(2, uid);
+            call.registerOutParameter(3, oracle.jdbc.OracleTypes.BOOLEAN);  //需要注册输出的参数
+            call.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return result;
+    }
     /////////////////////////////////////KOMACHI///////////////////////////////////////
 
 }
