@@ -128,6 +128,7 @@ public class StoreDaoImpl implements IStoreDao {
     @Override
     public boolean addGame(Game game) {     //添加一个游戏到商城
         CallableStatement call = null;
+        ResultSet rs =  null;
         Connection conn = DBUtils.getConn();
 
         try {
@@ -136,7 +137,7 @@ public class StoreDaoImpl implements IStoreDao {
             call.execute();    //执行存储过程
             rs = ((OracleCallableStatement) call).getCursor(1); //获取结果集
             while (rs.next()) {
-                Game game = new Game();
+//                Game game = new Game();
                 game.setGid(rs.getInt("GID"));
                 game.setName(rs.getString("NAME"));
                 game.setDev(rs.getString("DEVELOPER"));
@@ -422,17 +423,14 @@ public class StoreDaoImpl implements IStoreDao {
     }
 
     //@Override
-<<<<<<< HEAD
-    public boolean addToCartTest(int gid, int uid) throws SQLException {
+
+    public boolean addToCart(int gid, int uid) throws SQLException {
         boolean result=false;
-=======
-    public boolean addToCart(int gid, int uid) {
-        int result=0;
->>>>>>> 7c69ce842eb5e6f411efae037261070e5ab29c34
+
         CallableStatement call1 = null;
         ResultSet rs = null;
         Connection conn = DBUtils.getConn();
-<<<<<<< HEAD
+
 
         try {
             call1 = conn.prepareCall("{ call CartAddingCheck(?,?,?) }");    //查询商品是否已入库（Status=1 or 2）或已在购物车（Status=3）
@@ -441,52 +439,33 @@ public class StoreDaoImpl implements IStoreDao {
             call1.registerOutParameter(3, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
             call1.execute();
             rs = ((OracleCallableStatement) call1).getCursor(3);
-=======
-        int flag=0;
 
-        try {
-            System.out.println(gid);
-            System.out.println(uid);
-
-            call1 = conn.prepareCall("{ call CartAddingCheck(?,?,?) }");
-            call1.setInt(1, gid);
-            call1.setInt(2, uid);
-            call1.registerOutParameter(3, OracleTypes.INTEGER);  //需要注册输出的参数
-            call1.execute();
-            flag=call1.getInt(3);
->>>>>>> 7c69ce842eb5e6f411efae037261070e5ab29c34
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-<<<<<<< HEAD
+
         if(rs.next()){  //当商品为未拥有状态时
-=======
-        if(flag==1){
->>>>>>> 7c69ce842eb5e6f411efae037261070e5ab29c34
+
             CallableStatement call2 = null;
             try {
                 call2 = conn.prepareCall("{ call AddToCart(?,?,?) }");  //执行2条sql操作：1.添加记录到UGR表，设置状态status=3（在购物车）
                 call2.setInt(1, gid);                        //               2.查询该条记录是否存在于UGR表，游标绑定这条查询语句
                 call2.setInt(2, uid);
-<<<<<<< HEAD
+
                 call2.registerOutParameter(3, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
                 call2.execute();
                 rs = ((OracleCallableStatement) call1).getCursor(3);
                 if(rs.next()){ //如果成功查询到了参数并返回到结果集
                     result=true;    //则将结果设定为true
                 }
-=======
-                call2.registerOutParameter(3, OracleTypes.INTEGER);  //需要注册输出的参数
-                call2.execute();
-                result=call2.getInt(3);
->>>>>>> 7c69ce842eb5e6f411efae037261070e5ab29c34
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
-        return result==1?true:false;
+        return result;
     }
     /////////////////////////////////////KOMACHI///////////////////////////////////////
 
