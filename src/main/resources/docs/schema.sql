@@ -154,4 +154,7 @@ INSERT INTO tbl_game_tag_relation VALUES(
   SELECT GID FROM tbl_games WHERE name = '三色绘恋',
   SELECT TID FROM tbl_tags WHERE name = '动漫'
 );
+commit;
 INSERT INTO tbl_game_tag_relation VALUES();
+
+

@@ -2,7 +2,6 @@ package com.fdzc.oracle0.service;
 
 import com.fdzc.oracle0.bean.Game;
 import com.fdzc.oracle0.dao.IStoreDao;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,10 +78,11 @@ public class StoreServiceImpl implements IStoreService{
     @Override
 
     public boolean addToCart(String gid, int uid) {
-        try {
+            try {
             int g = Integer.parseInt(gid);
             return storeDao.addToCart(g,uid);
-        }catch (NumberFormatException e) {
+        }catch (NumberFormatException | SQLException e) {
+
             return false;
         }
     }
