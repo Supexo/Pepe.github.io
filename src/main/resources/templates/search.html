@@ -76,12 +76,13 @@
                             <a th:if="${manage==1}" th:href="'/edit/'+${item.gid}">
                                 <button type="button" class="btn btn-light">编辑</button>
                             </a>
+<!--                            <a th:if="${manage==1}" th:href="'/addTag/'+${item.gid}">-->
+<!--                                <button type="button" class="btn btn-light">添加类型标签</button>-->
+<!--                            </a>-->
                             <a th:if="${manage==1}" th:href="'/deactivate/'+${item.gid}">
-                                <button type="button" class="btn btn-light">下架游戏</button>
+                                <button type="button" class="btn btn-danger">下架游戏</button>
                             </a>
-                            <a th:if="${manage==1}" th:href="'/addTag/'+${item.gid}">
-                                <button type="button" class="btn btn-light">添加类型标签</button>
-                            </a>
+
                         </div>
                     </td>
                 </tr>

@@ -78,7 +78,7 @@ public class StoreServiceImpl implements IStoreService{
     @Override
 
     public boolean addToCart(String gid, int uid) {
-            try {
+        try {
             int g = Integer.parseInt(gid);
             return storeDao.addToCart(g,uid);
         }catch (NumberFormatException | SQLException e) {
@@ -100,9 +100,14 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public boolean stopSell(int gid) {
-        System.out.println(gid);
-        return storeDao.stopSell(gid);
+    public boolean stopSell(String gid) {
+        try {
+            int g = Integer.parseInt(gid);
+            System.out.println(gid);
+            return storeDao.stopSell(g);
+        }catch (NumberFormatException e){
+            return false;
+        }
     }
 
     @Override
