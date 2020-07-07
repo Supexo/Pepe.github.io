@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -153,4 +154,76 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/editUser/{uid}")
+    public ModelAndView editGamePage(HttpServletRequest request, HttpServletResponse response,@PathVariable int uid) throws IOException, SQLException {
+        /*
+        TODO: 检查用户登陆，没登陆去登录页面，否则去编辑页面
+         */
+        // 检查用户登录
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        /*
+                        TODO: 打开模版
+                         */
+
+                        mav.setViewName("changePassword");
+                        mav.addObject("uid",uid);
+                        return mav;
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping("/changeUser")
+    public void changeUser(HttpServletRequest request, HttpServletResponse response,@RequestParam int uid,@RequestParam String password) throws IOException, SQLException {
+        /*
+        TODO: 检查用户登陆，没登陆去登录页面，否则去编辑页面
+         */
+        // 检查用户登录
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        /*
+                        TODO: 打开模版
+                         */
+                        userService.changePass(uid,password);
+                        response.sendRedirect("/manage");
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+    }
 }
