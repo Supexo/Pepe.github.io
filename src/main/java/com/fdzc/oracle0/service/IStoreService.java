@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IStoreService {
-    public Game getGame(int gid);
+    public Game getGame(int gid) throws SQLException;
     public List<Game> getLatestGames() throws SQLException;
     public List<Game> getGames();
     public List<Game> getGames(String keyword, String page);
-    public List<Game> getNavGames();
+    public List<Game> getNavGames() throws SQLException;
     // 查询购物车 - 一页十个
     public List<Game> getCart(int uid, String page);
     // 加入购物车 加入成功返回true，已在库中or已在购物车中or已下架返回false

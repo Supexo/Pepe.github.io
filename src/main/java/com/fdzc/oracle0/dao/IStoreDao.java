@@ -10,7 +10,7 @@ public interface IStoreDao {
     public List<Game> getGames(String keyWord, int page);
 
     // 获取其中一个游戏的所有信息 - 记得查tag
-    public Game getGame(int gid);
+    public Game getGame(int gid) throws SQLException;
 
     // 加入购物车 加入成功返回true，已在库中or已在购物车中or已下架返回false
     public boolean addToCart(int gid,int uid);
@@ -22,7 +22,7 @@ public interface IStoreDao {
     public List<Game> getLatestGames() throws SQLException;
 
     // 获取三个游戏渲染首页
-    public List<Game> getNavGames();
+    public List<Game> getNavGames() throws SQLException;
 
     // 测试用，可删除
     public List<Game> getTestGames();

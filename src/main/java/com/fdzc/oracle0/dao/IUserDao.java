@@ -19,10 +19,16 @@ public interface IUserDao {
     // 查询用户
     public User getUser(int uid);
     public User getUser(String name);
+    // 由cookie获取用户
     public User getUserByCookie(String cookie);
     // 改余额
+<<<<<<< HEAD
     public boolean setBalance(int uid);
     // 由cookie获取用户
+=======
+    public void setBalance(int uid);
+
+>>>>>>> 7c69ce842eb5e6f411efae037261070e5ab29c34
 
 
 }
