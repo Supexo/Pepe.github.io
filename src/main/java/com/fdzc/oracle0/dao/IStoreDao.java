@@ -34,7 +34,7 @@ public interface IStoreDao {
     public boolean addTag(int gid,String tagName);
 
     // 停止销售某款游戏 停止成功 true，失败false
-    public boolean stopSell(int gid);
+    public void stopSell(int gid);
 
     // 修改某款游戏内容
     public boolean changeGame(Game game);
