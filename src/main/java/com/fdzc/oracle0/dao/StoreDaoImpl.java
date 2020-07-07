@@ -6,10 +6,7 @@ import oracle.jdbc.OracleCallableStatement;
 import oracle.jdbc.OracleTypes;
 import org.springframework.stereotype.Repository;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,31 +125,31 @@ public class StoreDaoImpl implements IStoreDao {
     @Override
     public boolean addGame(Game game) {     //添加一个游戏到商城
         CallableStatement call = null;
-        ResultSet rs =  null;
+        boolean result=false;
         Connection conn = DBUtils.getConn();
 
+        String SQL_ADD_GAME = "insert into TBL_GAMES values(?,?,?,?,?,?,?,?,?,?)";
         try {
-            call = conn.prepareCall("{ call Get3GamesRandomlyWithoutTags(?) }");
-            call.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
-            call.execute();    //执行存储过程
-            rs = ((OracleCallableStatement) call).getCursor(1); //获取结果集
-            while (rs.next()) {
-//                Game game = new Game();
-                game.setGid(rs.getInt("GID"));
-                game.setName(rs.getString("NAME"));
-                game.setDev(rs.getString("DEVELOPER"));
-                game.setPub(rs.getString("PUBLISHER"));
-                game.setPrice(rs.getInt("PRICE"));
-                game.setDiscount(rs.getInt("DISCOUNT"));
-                game.setSummary(rs.getString("SUMMARY"));
-                game.setPubDate(rs.getString("PUBLISH_DATE"));
-                game.setMainImg(rs.getString("MAIN_IMAGE"));
-                game.setStatus(rs.getBoolean("STATUS"));
-            }
+            PreparedStatement pstmt = conn.prepareStatement(SQL_ADD_GAME);
+            pstmt.setInt(1,game.getGid());
+            pstmt.setString(2,game.getName());
+            pstmt.setString(3,game.getDev());
+            pstmt.setString(4, game.getPub());
+            pstmt.setInt(5,game.getPrice());
+            pstmt.setInt(6,game.getDiscount());
+            pstmt.setString(7, game.getSummary());
+            pstmt.setString(8,game.getPubDate());
+            pstmt.setString(9,game.getMainImg());
+            pstmt.setInt(10,game.getStatus());
+
+            pstmt.executeUpdate();
+            result=true;
+            //update: insert,delete,update. query: select
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+
+        return result;
     }
 
     public List<Game> getGames(String keyWord, int page) {
@@ -259,26 +256,19 @@ public class StoreDaoImpl implements IStoreDao {
     }
 
     @Override
-    public boolean stopSell(int gid) {
-        boolean result=false;
-        ResultSet rs = null;
+    public void stopSell(int gid) {
         Connection conn = DBUtils.getConn();
         CallableStatement call = null;
 
         try {
-            call = conn.prepareCall("{ call StopSell(?,?) }");  //执行2条sql语句：1.根据ID将游戏表中某个游戏的状态设置为status=0（下架）
-            call.setInt(1, gid);                     //               2.查询该条记录，条件为status=0，返回的游标绑定于这条查询语句
+            call = conn.prepareCall("{ call StopSell(?) }");
+            call.setInt(1, gid);
             call.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
             call.execute();    //执行存储过程
-            rs = ((OracleCallableStatement) call).getCursor(2); //获取结果集
-            if(rs.next()){
-                result=true;
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return result;
     }
 
     @Override
