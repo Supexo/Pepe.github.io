@@ -335,7 +335,9 @@ public class StoreDaoImpl implements IStoreDao {
                 game.setPubDate(rs.getString("PUBLISH_DATE"));
                 game.setMainImg(rs.getString("MAIN_IMAGE"));
                 game.setStatus(rs.getBoolean("STATUS"));
-            }
+
+
+        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -363,6 +365,7 @@ public class StoreDaoImpl implements IStoreDao {
         rs.next();
         Game game = new Game();
         game.setGid(rs.getInt("GID"));
+
         game.setName(rs.getString("NAME"));
         game.setDev(rs.getString("DEV"));
         game.setPub(rs.getString("PUB"));
@@ -445,7 +448,7 @@ public class StoreDaoImpl implements IStoreDao {
         }
 
 
-        if(rs.next()){  //当商品为未拥有状态时
+        if(!rs.next()){  //当商品为未拥有状态时
 
             CallableStatement call2 = null;
             try {
@@ -455,16 +458,14 @@ public class StoreDaoImpl implements IStoreDao {
 
                 call2.registerOutParameter(3, oracle.jdbc.OracleTypes.CURSOR);  //需要注册输出的参数
                 call2.execute();
-                rs = ((OracleCallableStatement) call1).getCursor(3);
-                if(rs.next()){ //如果成功查询到了参数并返回到结果集
-                    result=true;    //则将结果设定为true
-                }
+
+                result=true;    //则将结果设定为true
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-
+        DBUtils.releaseRes(conn,null,call1,rs);
         return result;
     }
     /////////////////////////////////////KOMACHI///////////////////////////////////////
