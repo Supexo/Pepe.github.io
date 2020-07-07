@@ -45,11 +45,11 @@ public class UserController {
             response.sendRedirect("/login?err=1");
         } else {
             Cookie c = new Cookie("user", user.getCookie());
-            c.setMaxAge(60 * 10);
+            c.setMaxAge(60 * 60);
             c.setPath("/");
             response.addCookie(c);
             c = new Cookie("username", user.getName());
-            c.setMaxAge(60 * 10);
+            c.setMaxAge(60 * 60);
             c.setPath("/");
             response.addCookie(c);
             if (user.getType() == UserType.ADMINISTER) {
@@ -217,5 +217,18 @@ public class UserController {
         mav.setViewName("addUser");
         mav.addObject("manager",false);
         return mav;
+    }
+
+    @RequestMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Cookie c = new Cookie("user", null);
+        c.setMaxAge(0);
+        c.setPath("/");
+        response.addCookie(c);
+        c = new Cookie("username", null);
+        c.setMaxAge(0);
+        c.setPath("/");
+        response.addCookie(c);
+        response.sendRedirect("/index");
     }
 }

@@ -41,7 +41,7 @@
         <h1 class="text-light" style="min-height: 100px;line-height: 100px;" th:text="${edit?'编辑游戏':'添加游戏'}"></h1>
         <form th:action="${edit?'/editGame':'/add'}" method="post">
             <div class="form-group text-light" >
-                <input type="hidden" name="gid" th:value="${game.gid}" >
+                <input type="hidden" name="gid" th:if="${edit}" th:value="${game.gid}" >
                 <label>游戏名</label>
                 <input type="text" name="name" class="form-control mb-2" placeholder="游戏名" th:value="${edit?game.name:''}">
                 <label>开发商</label>
