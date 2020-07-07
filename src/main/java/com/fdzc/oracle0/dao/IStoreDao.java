@@ -13,7 +13,7 @@ public interface IStoreDao {
     public Game getGame(int gid) throws SQLException;
 
     // 加入购物车 加入成功返回true，已在库中or已在购物车中or已下架返回false
-    public boolean addToCart(int gid,int uid);
+    public boolean addToCart(int gid,int uid) throws SQLException;
 
     // 查询购物车 - 一页十个
     public List<Game> getCart(int uid, int page);
@@ -28,7 +28,7 @@ public interface IStoreDao {
     public List<Game> getTestGames();
 
     // 管理添加游戏
-    public void addGame(Game game);
+    public boolean addGame(Game game);
 
     // 增加tag 增加成功返回true ，有同名tag返回false
     public boolean addTag(int gid,String tagName);

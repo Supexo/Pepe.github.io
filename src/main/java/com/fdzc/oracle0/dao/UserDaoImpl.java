@@ -206,7 +206,7 @@ public class UserDaoImpl implements IUserDao{
     }
 
     @Override
-    public void setBalance(int uid) {
-
+    public boolean setBalance(int uid) {
+        return false;
     }
 }
