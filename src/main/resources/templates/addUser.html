@@ -39,24 +39,14 @@
     </nav>
     <div class="container">
         <h1 class="text-light" style="min-height: 100px;line-height: 100px;">添加游戏</h1>
-        <form action="/add" method="post">
+        <form action="/addUser" method="post">
             <div class="form-group text-light">
-                <label>游戏名</label>
-                <input type="text" name="name" class="form-control mb-2" placeholder="游戏名">
-                <label>开发商</label>
-                <input type="text" name="dev" class="form-control mb-2" placeholder="开发商">
-                <label>发行商</label>
-                <input type="text" name="pub" class="form-control mb-2" placeholder="发行商">
-                <label>定价 - 单位分</label>
-                <input type="text" name="price" class="form-control mb-2" placeholder="定价 - 单位分">
-                <label>折扣 - 百分比</label>
-                <input type="text" name="discount" class="form-control mb-2" placeholder="折扣 - 百分比">
-                <label>简介</label>
-                <input type="text" name="summary" class="form-control mb-2" placeholder="简介">
-                <label>发行时间 格式：YYYY-M-D</label>
-                <input type="text" name="pubDate" class="form-control mb-2" placeholder="发行时间 格式：YYYY-M-D">
-                <label>图片保存的目录</label>
-                <input type="text" name="mainImg" class="form-control mb-2" placeholder="图片保存的目录">
+                <label>用户名</label>
+                <input type="text" name="name" class="form-control mb-2" placeholder="用户名">
+                <label>密码</label>
+                <input type="password" name="password" class="form-control mb-2" placeholder="密码">
+                <input type="checkbox" name="admin" class="form-check-input mb-2" id="exampleCheck1">
+                <label>是否管理</label>
                 <button type="submit" class="btn btn-primary mb-2">提交</button>
             </div>
         </form>

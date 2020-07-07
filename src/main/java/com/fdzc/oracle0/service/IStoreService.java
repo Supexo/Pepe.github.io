@@ -8,7 +8,6 @@ import java.util.List;
 public interface IStoreService {
     public Game getGame(int gid) throws SQLException;
     public List<Game> getLatestGames() throws SQLException;
-    public List<Game> getGames();
     public List<Game> getGames(String keyword, String page);
     public List<Game> getNavGames() throws SQLException;
     // 查询购物车 - 一页十个

@@ -20,11 +20,6 @@ public class StoreServiceImpl implements IStoreService{
     }
 
     @Override
-    public List<Game> getGames() {
-        return storeDao.getTestGames();
-    }
-
-    @Override
     public List<Game> getNavGames() throws SQLException {
 
         return storeDao.getNavGames();

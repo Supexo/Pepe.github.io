@@ -334,4 +334,38 @@ public class StoreController {
         }
         return null;
     }
+
+
+    @RequestMapping("/managerSearchUser")
+    public ModelAndView managerSearchUser(HttpServletResponse response,HttpServletRequest request,@RequestParam(name="keyword",required = false) String keyword, @RequestParam(name="page",required = false) String page) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        List<User> users;
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        users = userService.getUsers(keyword, page);
+                        mav.setViewName("searchUser");
+                        mav.addObject("keyword",keyword);
+                        mav.addObject("users",users);
+                    }else {
+                        mav.setViewName("notFound");
+                        return mav;
+                    }
+                    return mav;
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
 }

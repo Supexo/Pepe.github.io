@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>伪·蒸汽动力 搜索</title>
+</head>
+<body>
+<div class="container-fluid pl-0 pr-0" style="background: #1b2838;">
+    <!--        头-->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <a class="navbar-brand" href="/index" style="line-height: 44px;">
+            <img src="/header_logo.png" width="176" height="44" class="d-inline-block align-top" alt=""
+                 loading="lazy">
+            伪·蒸汽动力
+        </a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" HREF="/index">
+                    商店
+                </a>
+            </li>
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" HREF="/repository">-->
+            <!--                    库-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" HREF="/home">-->
+            <!--                    个人资料-->
+            <!--                </a>-->
+            <!--            </li>-->
+        </ul>
+        <form class="form-inline" action="/search">
+            <input class="form-control mr-sm-2 bg-light" name="keyword" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+    <div style="max-width:1560px; margin: auto;" class="pt-3">
+        <!--            搜索结果-->
+        <div class="table-responsive">
+            <h2 th:text="'“'+${keyword}+'”的搜索结果'" class="text-light" style="min-height: 100px;line-height: 100px;"></h2>
+            <h2 th:if="${users.size()==0}" class="text-light" style="min-height: 800px;line-height: 800px;text-align: center">No Result</h2>
+            <table th:if="${users.size()!=0}" class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col" style="text-align: center">#</th>
+                    <th scope="col" style="text-align: center">用户名</th>
+                    <th scope="col" style="text-align: center">类型</th>
+                    <th scope="col" style="text-align: center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item,var:${users}">
+                    <td style="text-align: center" th:text="${item.uid}"></td>
+                    <td style="text-align: center" th:text="${item.name}"></td>
+                    <td style="text-align: center" th:text="${item.type}"></td>
+                    <td class="" style="text-align: center">
+                        <div style="display: inline-block;">
+                            <a th:href="'/editUser/'+${item.uid}">
+                                <button type="button" class="btn btn-light">编辑</button>
+                            </a>
+<!--                            <a th:if="${manage==1}" th:href="'/addTag/'+${item.gid}">-->
+<!--                                <button type="button" class="btn btn-light">添加类型标签</button>-->
+<!--                            </a>-->
+                            <a th:href="'/ban/'+${item.uid}">
+                                <button type="button" class="btn btn-danger">删除账户</button>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!--            <a href="#" class="list-group-item list-group-item-action list-group-item-dark pl-0 pb-0 pt-0" style="display: flex;justify-content: space-between; margin-bottom: 10px;">-->
+        <!--                <img src="../static/72358601_p0_cut.jpg" height="80">-->
+        <!--                <h4 style="line-height: 80px; margin-bottom: 0">游戏名</h4>-->
+        <!--                <div style="line-height: 80px; margin-bottom: 0">发行时间</div>-->
+        <!--                <div style="height: 40px; width: 60px; text-align: center; line-height: 40px; margin-top: 20px; color: #8bc53f; background: #4c6b22;">-60%</div>-->
+        <!--                <h5 style="line-height: 80px; margin-bottom: 0;">-->
+        <!--                    <div style="text-decoration: line-through; display: inline-block;color:gray;">$100</div>-->
+        <!--                    $40-->
+        <!--                </h5>-->
+        <!--            </a>-->
+
+    </div>
+    <div style="height: 30px"></div>
+    <footer class="text-light bg-dark">
+        <div style="max-width:1060px; margin: auto;" class="pt-5 pb-5">
+            Powered by TypeAlpha, Kirin, Komachi<br>
+            <a class="text-light" href="/manage">管理入口</a>
+            <a th:each="cookie:${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('username')}" class="text-light" href="/logout">登出</a>
+        </div>
+    </footer>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</html>
